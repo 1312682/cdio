@@ -1,0 +1,8 @@
+{
+    "projects": [
+        "CDIO.EntityFramework",
+        "CDIO.Core",
+        "CDIO.Application",
+        "CDIO.WebApi"
+    ]
+}
