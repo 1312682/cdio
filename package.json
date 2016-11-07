@@ -1,0 +1,30 @@
+{
+  "name": "cdio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/williamdang1710/cdio.git"
+  },
+  "author": "Triet Dang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/williamdang1710/cdio/issues"
+  },
+  "homepage": "https://github.com/williamdang1710/cdio#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.6.6",
+    "morgan": "^1.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
