@@ -1,4 +1,9 @@
 var mongoose = require('mongoose');
+
+// Config Mongoose
+//-----------------------------------------------
+mongoose.Promise = global.Promise;
+
 // Open a connection to the database
 //-----------------------------------------------
 mongoose.connect(__CONNECTIONSTRING);

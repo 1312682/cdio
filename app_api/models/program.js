@@ -8,9 +8,9 @@ var courseSchema = new mongoose.Schema({
 });
 
 var groupSchema = new mongoose.Schema({
-  children: { type: String, required: true },
+  children: { type: String, required: false },
   name: { type: String, required: true },
-  major: { type: String, required: true },     // major
+  major: { type: String, required: false },     // major
   courses: [courseSchema]
 });
 
