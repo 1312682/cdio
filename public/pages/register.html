@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MASDOC | Đăng Ký</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style-skin.css">
+    <link rel="stylesheet" href="../assets/css/plugins/iCheck/blue.css">
+    <link rel="stylesheet" href="../bower_components/sweetalert/dist/sweetalert.css">
+    <link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="hold-transition register-page" ng-app="app" ng-controller="registerCtr">
+    <div class="register-box">
+        <div class="register-logo">
+            <a href=""><b>MASDOC</b></a>
+        </div>
+
+        <div class="register-box-body">
+            <p class="login-box-msg">Đăng ký khách hàng mới</p>
+
+            <form name="userForm" novalidate>
+                <div class="form-group has-feedback" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+                    <input type="text" class="form-control" name="name" ng-model="newUser.HoTen" placeholder="Họ và tên" required>
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">Họ và tên không được trống.</p>
+                </div>
+                <div class="form-group has-feedback" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+                    <input type="email" class="form-control" name="email" ng-model="newUser.Email" placeholder="Email" required>
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Email chưa hợp lệ.</p>
+                </div>
+                <div class="form-group has-feedback" ng-class="{ 'has-error' : userForm.password.$invalid && !userForm.password.$pristine }">
+                    <input type="password" class="form-control" name="password" ng-model="newUser.Password" placeholder="Mật khẩu" required ng-minlength="6" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <p ng-show="userForm.password.$error.minlength" class="help-block">Mật khẩu ít nhất 6 kí tự.</p>
+                    <p ng-show="userForm.password.$error.pattern" class="help-block">Mật khẩu phải có chứa số, chữ hoa, thường và kí tự đặc biệt.</p>
+                    <p ng-show="userForm.password.$invalid && !userForm.password.$pristine && !userForm.password.$error.minlength && !userForm.password.$error.pattern" class="help-block">Mật khẩu không được trống.</p>
+                </div>
+                <div class="form-group has-feedback" ng-class="{ 'has-error' : userForm.repassword.$invalid && !userForm.repassword.$pristine }">
+                    <input type="password" class="form-control" name="repassword" ng-model="repassword" placeholder="Nhập lại mật khẩu" valid-password="newUser.Password" required>
+                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                    <p ng-show="userForm.repassword.$error.noMatch" class="help-block">Mật khẩu không trùng khớp.</p>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6 text-center" style="margin-top: 15px;">
+                        <label>
+                            <input type="radio" name="kind" value="0" class="flat-red" checked>
+                            Cá nhân
+                        </label>
+                    </div>
+                    <div class="col-sm-6 text-center" style="margin-top: 15px;">
+                        <label>
+                            <input type="radio" name="kind" value="1" class="flat-red">
+                            Công ty
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="checkbox icheck">
+                            <label>
+                                <input type="checkbox" class="flat-red" name="rule" checked> Tôi đồng ý với các <a href="#">điều khoản</a>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-xs-4">
+                        <button type="button" class="btn btn-primary btn-block btn-flat" ng-disabled="!userForm.$valid" ng-click="submitForm(userForm.$valid)">Đăng ký</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+            <div class="social-auth-links text-center">
+                <p>----- OR -----</p>
+            </div>
+            <div class="text-center">
+                <a href="login.html">Đã có tài khoản người dùng. Đăng nhập?</a>
+            </div>
+        </div>
+        <!-- /.form-box -->
+    </div>
+    <!-- /.register-box -->
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="../bower_components/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="../bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/controller/app.register.js"></script>
+
+    <script>
+        $(function () {
+            $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
+            });
+        });
+    </script>
+</body>
+</html>
