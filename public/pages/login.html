@@ -16,16 +16,16 @@
 <body class="hold-transition login-page" ng-app="app" ng-controller="loginCtr">
     <div class="login-box">
         <div class="login-logo">
-            <a href=""><b>MASDOC</b></a>
+            <a href=""><b>FIT-HCMUS</b></a>
         </div>
         <div class="login-box-body">
             <p class="login-box-msg">Đăng nhập</p>
 
             <form name="loginForm" novalidate>
                 <div class="form-group has-feedback" ng-class="{ 'has-error' : loginForm.email.$invalid && !loginForm.email.$pristine }">
-                    <input type="email" class="form-control" name="email" ng-model="loginUser.Email" placeholder="Email" required>
+                    <input type="text" class="form-control" name="kidanh" ng-model="loginUser.Kidanh" placeholder="Kí danh" required>
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                    <p ng-show="loginForm.email.$invalid && !loginForm.email.$pristine" class="help-block">Email chưa hợp lệ.</p>
+                    <p ng-show="loginForm.email.$invalid && !loginForm.email.$pristine" class="help-block">Kí danh chưa hợp lệ.</p>
                 </div>
                 <div class="form-group has-feedback">
                     <input type="password" class="form-control" name="password" ng-model="loginUser.Password" placeholder="Mật khẩu" required>
@@ -50,8 +50,7 @@
                 <p>----- OR -----</p>
             </div>  
             <div class="text-center">
-                <a href="#" class="text-center" data-toggle="modal" data-target="#resetModal">Quên mật khẩu?</a><br/>
-                <a href="register.html" class="text-center">Đăng ký khách hàng mới?</a>
+                <a href="#" class="text-center" data-toggle="modal" data-target="#resetModal">Quên kí danh hoặc mật khẩu?</a><br/>
             </div>
         </div>
         <!-- /.login-box-body -->

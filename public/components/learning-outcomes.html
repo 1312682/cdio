@@ -1,0 +1,42 @@
+<section class="content">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Horizontal Form</h3>
+        </div>
+        <form class="form-horizontal">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Chọn chương trình đào tạo*</label>
+                    <div class="col-sm-4">
+                        <select class="form-control select2" style="width: 100%;">
+                            <option selected="selected">-- Chương trình đào tạo --</option>
+                            <option>Alaska</option>
+                            <option>California</option>
+                            <option>Delaware</option>
+                            <option>Tennessee</option>
+                            <option>Texas</option>
+                            <option>Washington</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- /.form-group -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="InputFileCTDT">Chọn tệp</label>
+                    <div class="col-sm-4">
+                        <input type="file" class="btn" id="InputFileCTDT" accept="application/vnd.ms-excel"> 
+                        <div class="form-horizontal">
+                        <button class="btn">Xem trước</button>
+                        <button type="submit" class="btn btn-primary">Nhập</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.form-group -->
+            </div>
+        </form>
+    </div>
+</section>
+<script>
+    $(function() {
+        $('.select2').select2();
+    });
+</script>
