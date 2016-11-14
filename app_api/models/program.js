@@ -1,24 +1,24 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+
+// Blocks schema
+//-----------------------------------------------
+var blockSchema = new Schema({
+  name: { type: String, required: true },
+  majors: { type: [String], required: false },
+  path: { type: String, required: false, default: '' },
+  courses: { type: [Schema.Types.ObjectId], ref: 'Subject' }
+});
 
 // Program schema
 //-----------------------------------------------
-var courseSchema = new mongoose.Schema({
-  _id: { type: String, required: true },
-  name: { type: String, required: true },
-});
-
-var groupSchema = new mongoose.Schema({
-  children: { type: String, required: false },
-  name: { type: String, required: true },
-  major: { type: String, required: false },     // major
-  courses: [courseSchema]
-});
-
-var programSchema = new mongoose.Schema({
+var programSchema = new Schema({
   name: { type: String, required: true },
   falcuty: { type: String, required: true },
-  level: { type: String, required: true },
-  groups: [groupSchema]
+  type: { type: String, required: true },
+  description: { type: String, required: false, default: '' },
+  blocks: [blockSchema]
 });
 
 // Compile schema
