@@ -20,6 +20,7 @@
 			views : {
 				'content-view@' : {
 					templateUrl : './components/training-programs.html',
+					controller: 'trainingCtr'
 				}
 			}
 		})
@@ -29,6 +30,16 @@
 			views : {
 				'content-view@' : {
 					templateUrl : './components/learning-outcomes.html',
+					controller: 'learningCtr'
+				}
+			}
+		})
+
+		.state('app.courses-map', {
+			url : 'courses-map',
+			views : {
+				'content-view@' : {
+					templateUrl : './components/courses-map.html',
 				}
 			}
 		});

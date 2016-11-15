@@ -54,3 +54,4 @@ process.once('SIGTERM', () => {
 //-----------------------------------------------
 require('./program');
 require('./subject');
+require('./learning-outcomes');

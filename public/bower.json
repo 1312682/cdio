@@ -1,5 +1,5 @@
 {
-  "name": "CDIO",
+  "name": "cdio",
   "authors": [
     "Anh Tú Võ <1312682@student.hcmus.edu.vn>"
   ],
@@ -23,6 +23,7 @@
     "sweetalert": "^1.1.3",
     "angular-ui-router": "^0.3.2",
     "angular-cookies": "^1.5.8",
-    "font-awesome": "fontawesome#^4.7.0"
+    "font-awesome": "fontawesome#^4.7.0",
+    "jstree": "^3.3.3"
   }
 }

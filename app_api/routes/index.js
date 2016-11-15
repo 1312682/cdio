@@ -3,6 +3,7 @@ var express = require('express');
 // Controllers
 var routeProgram = require(__BASE + '/app_api/controllers/program');
 var routeSubject = require(__BASE + '/app_api/controllers/subject');
+var routeOutcome = require(__BASE + '/app_api/controllers/learning-outcomes');
 
 // Config routes
 //-----------------------------------------------
