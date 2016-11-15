@@ -10,9 +10,10 @@
         }
 
         $scope.faculties = ["Công Nghệ Thông Tin", "Toán - Toán Tin", "Sinh học - Công nghệ sinh học", "Vật lý", "Hóa học", "Môi trường"];
-        
+
         $scope.trnPrograms = {
-            "Công Nghệ Thông Tin": [
+            "Faculty": "Công Nghệ Thông Tin",
+            "Programs": [
                     "Chính Quy",
                     "Cao Đẳng",
                     "Chất Lượng Cao"
@@ -20,8 +21,7 @@
         };
 
         $scope.onFacultyChange = function onFacultyChange() {
-            var curFaculty = $scope.curFaculty;
-            $scope.programs = $scope.trnPrograms.curFaculty;
+            $scope.programs = $scope.trnPrograms.Programs;
         }
 
         $('#container1').jstree({
