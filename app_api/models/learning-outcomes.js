@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var learningSchema = new Schema({
 	name: { type: String, required: true },
 	majors: { type: [String], required: false },
-	parent: String
+	path: String
 });
 
 // Compile schema

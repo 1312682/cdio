@@ -12,22 +12,21 @@
 								<option ng-repeat="item in faculties">{{item}}</option>
 						</select>
 					</div>
-					<div class="col-sm-2">
-						<button type="submit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addFaculty">Add Faculty</button>
-					</div>
 				</div>
 			</div>
 			<div class="box-body">
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Training Programs:<span class="text-red">*</span></label>
+					<label class="col-sm-3 control-label">Type:<span class="text-red">*</span></label>
 					<div class="col-sm-4">
 						<select class="form-control select2 programs" style="width: 100%;">
 								<option ng-repeat="item in programs">{{item}}</option>
 						</select>
 					</div>
-					<div class="col-sm-2">
-						<button type="submit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addtrnPrograms">Add Training Programs</button>
-					</div>
+				</div>
+			</div>
+			<div class="box-body">
+				<div class="col-sm-4">
+					<button type="submit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addtrnPrograms">+ New Training Programs</button>
 				</div>
 			</div>
 			<div class="box-footer">
@@ -44,7 +43,7 @@
 	</div>
 
 	<!-- Modal add faculty -->
-	<div class="modal fade" id="addFaculty" tabindex="-1" role="dialog">
+	<div class="modal fade" id="addFaculty" data-backdrop-limit="1" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -53,7 +52,7 @@
 				<div class="modal-body">
 					<div class="box-body">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Faculty:<span class="text-red">*</span></label>
+							<label class="col-sm-3 control-label">New Faculty:<span class="text-red">*</span></label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control">
 							</div>
@@ -70,7 +69,34 @@
 		</div>
 	</div>
 
-    <!-- Modal add training programs -->
+	<!-- Modal add type -->
+	<div class="modal fade" id="addTypes" data-backdrop-limit="1" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Add Types</h4>
+				</div>
+				<div class="modal-body">
+					<div class="box-body">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">New Type:<span class="text-red">*</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control">
+							</div>
+							<div class="col-sm-2">
+								<button type="submit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTypes">Add</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Add</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal add training programs -->
 	<div class="modal fade" id="addtrnPrograms" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -80,12 +106,27 @@
 				<div class="modal-body">
 					<div class="box-body">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Training Programs:<span class="text-red">*</span></label>
+							<label class="col-sm-3 control-label">Faculty:<span class="text-red">*</span></label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control">
+								<select id="faculties" ng-change="onFacultyChange()" ng-model="curFaculty" class="form-control select2 faculty" style="width: 100%;">
+								<option ng-repeat="item in faculties">{{item}}</option>
+						</select>
 							</div>
 							<div class="col-sm-2">
-								<button type="submit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addtrnPrograms">Add</button>
+								<a role="button" class="btn btn-primary pull-right" data-toggle="modal" href="#addFaculty">New</a>
+							</div>
+						</div>
+					</div>
+					<div class="box-body">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Type:<span class="text-red">*</span></label>
+							<div class="col-sm-4">
+								<select class="form-control select2 programs" style="width: 100%;">
+								<option ng-repeat="item in programs">{{item}}</option>
+						</select>
+							</div>
+							<div class="col-sm-2">
+								<button type="submit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTypes">New</button>
 							</div>
 						</div>
 					</div>

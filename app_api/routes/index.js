@@ -32,6 +32,15 @@ router.route('/subjects/:subjectId')
   .put(routeSubject.updateSubject)
   .delete(routeSubject.deleteSubject);
 
+
+router.route('/learning-outcomes')
+  .post(routeOutcome.createOutcome);
+
+router.route('/learning-outcomes/:outcomeId')
+  .get(routeOutcome.getTreeOutcome)
+  .put(routeOutcome.updateOutcome)
+  .delete(routeOutcome.deleteOutcome);
+
 // 404 handler
 router.use('*', function (req, res, next) {
   return res.status(404).json({

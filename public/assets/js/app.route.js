@@ -25,6 +25,36 @@
 			}
 		})
 
+		.state('app.training-programs.faculties', {
+			url : 'training-programs/faculties',
+			views : {
+				'content-view@' : {
+					templateUrl : './components/faculties.html',
+					controller: 'trainingCtr'
+				}
+			}
+		})
+
+		.state('app.training-programs.types', {
+			url : 'training-programs/types',
+			views : {
+				'content-view@' : {
+					templateUrl : './components/types.html',
+					controller: 'trainingCtr'
+				}
+			}
+		})
+
+		.state('app.training-programs.subjects', {
+			url : 'training-programs/subjects',
+			views : {
+				'content-view@' : {
+					templateUrl : './components/subjects.html',
+					controller: 'trainingCtr'
+				}
+			}
+		})
+
 		.state('app.learning-outcomes', {
 			url : 'learning-outcomes',
 			views : {

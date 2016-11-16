@@ -24,6 +24,7 @@
     "angular-ui-router": "^0.3.2",
     "angular-cookies": "^1.5.8",
     "font-awesome": "fontawesome#^4.7.0",
-    "jstree": "^3.3.3"
+    "jstree": "^3.3.3",
+    "angular-bootstrap": "^2.2.0"
   }
 }
