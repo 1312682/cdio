@@ -101,7 +101,8 @@ module.exports.deleteSubject = function (req, res, next) {
     .findOneAndRemove({
       _id: req.params.subjectId
     })
-    .exec((subject) => {
+    .exec()
+    .then((subject) => {
       if (!subject) {
         return res.status(404).json({
           message: 'Subject does not exist'

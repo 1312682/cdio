@@ -12,6 +12,10 @@ var router = express.Router();
 router.route('/programs')
   .post(routeProgram.createProgram)
   .get(routeProgram.getAllProgram);
+router.route('/programs/faculties')
+  .get(routeProgram.getAllFaculty);
+router.route('/programs/types')
+  .get(routeProgram.getAllType);
 router.route('/programs/:programId')
   .get(routeProgram.getProgram)
   .put(routeProgram.updateProgram)

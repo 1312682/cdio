@@ -9,7 +9,7 @@ module.exports.createProgram = function (req, res, next) {
   Program
     .create({
       name: req.body.name,
-      falcuty: req.body.falcuty,
+      faculty: req.body.faculty,
       type: req.body.type,
       description: req.body.description,
       blocks: {
@@ -65,7 +65,7 @@ module.exports.updateProgram = function (req, res, next) {
       _id: req.params.programId
     }, {
       name: req.body.name,
-      falcuty: req.body.falcuty,
+      faculty: req.body.faculty,
       type: req.body.type,
       description: req.body.description
     })
@@ -292,6 +292,36 @@ module.exports.deleteBlock = function (req, res, next) {
     .catch((err) => {
       return res.status(500).json({
         message: 'Cannot get program',
+        detail: err
+      });
+    });
+};
+
+module.exports.getAllFaculty = function (req, res, next) {
+  Program.find()
+    .distinct('faculty')
+    .exec()
+    .then((program) => {
+      return res.status(200).json(program);
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        message: 'Cannot get faculty list',
+        detail: err
+      });
+    });
+};
+
+module.exports.getAllType = function (req, res, next) {
+  Program.find()
+    .distinct('type')
+    .exec()
+    .then((program) => {
+      return res.status(200).json(program);
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        message: 'Cannot get type list',
         detail: err
       });
     });
