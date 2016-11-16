@@ -106,28 +106,22 @@
 				<div class="modal-body">
 					<div class="box-body">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Faculty:<span class="text-red">*</span></label>
+							<label class="col-sm-3 control-label">Khoa:<span class="text-red">*</span></label>
 							<div class="col-sm-4">
-								<select id="faculties" ng-change="onFacultyChange()" ng-model="curFaculty" class="form-control select2 faculty" style="width: 100%;">
-								<option ng-repeat="item in faculties">{{item}}</option>
-						</select>
-							</div>
-							<div class="col-sm-2">
-								<a role="button" class="btn btn-primary pull-right" data-toggle="modal" href="#addFaculty">New</a>
+								<input type="text">
 							</div>
 						</div>
 					</div>
 					<div class="box-body">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Type:<span class="text-red">*</span></label>
+							<label class="col-sm-3 control-label">Hệ:<span class="text-red">*</span></label>
 							<div class="col-sm-4">
-								<select class="form-control select2 programs" style="width: 100%;">
-								<option ng-repeat="item in programs">{{item}}</option>
-						</select>
+								<input type="text">
 							</div>
-							<div class="col-sm-2">
-								<button type="submit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTypes">New</button>
-							</div>
+							<label class="col-sm-3 control-label">Mô tả:<span class="text-red">*</span></label>
+							<div class="col-sm-4">
+								<input type="text">
+							</div>							
 						</div>
 					</div>
 				</div>
