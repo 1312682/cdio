@@ -1,0 +1,111 @@
+<section class="content">
+	<div class="box box-primary">
+		<div class="box-header with-border">
+			<h3 class="box-title">Quản lý môn học:</h3>
+			<div class="col-sm-4 pull-right">
+				<input type="text" class="form-control" placeholder="Search...">
+			</div>
+		</div>
+		<div class="box-body">
+			<table id="new-table" class="table table-bordered table-striped" data-page-length="10">
+				<thead>
+					<tr>
+						<th>Mã môn học</th>
+						<th>Tên môn học</th>
+						<th>Mô tả</th>
+						<th>Số tín chỉ</th>
+						<th>Thời lượng lý thuyết</th>
+						<th>Thời lượng thực hành</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in subjects">
+						<td>{{item.MaMon}}</td>
+						<td>{{item.TenMon}}</td>
+						<td>{{item.MieuTa}}</td>
+						<td>{{item.TinChi}}</td>
+						<td>{{item.ThoiLuong.LyThuyet}}</td>
+						<td>{{item.ThoiLuong.ThucHanh}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="box-footer">
+			<button type="submit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addSubject">Thêm môn</button>
+		</div>
+	</div>
+</section>
+
+<!-- Modal add subject -->
+<div class="modal fade" id="addSubject" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Thêm môn mới</h4>
+			</div>
+			<div class="modal-body">
+				<div class="box-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Mã môn học:<span class="text-red">*</span></label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="box-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Tên môn học:<span class="text-red">*</span></label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="box-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Miêu tả:<span class="text-red">*</span></label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="box-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Số tín chỉ:<span class="text-red">*</span></label>
+						<div class="col-sm-9">
+							<input type="number" class="form-control">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="box-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Thời lượng lý thuyết:<span class="text-red">*</span></label>
+						<div class="col-sm-9">
+							<input type="number" class="form-control">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="box-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Thời lượng thực hành:<span class="text-red">*</span></label>
+						<div class="col-sm-9">
+							<input type="number" class="form-control">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Add</button>
+			</div>
+		</div>
+	</div>
+</div>

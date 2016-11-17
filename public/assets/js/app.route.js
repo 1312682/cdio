@@ -25,18 +25,18 @@
 			}
 		})
 
-		.state('app.training-programs.faculties', {
-			url : 'training-programs/faculties',
+		.state('app.training-programs.programs', {
+			url : '/programs',
 			views : {
 				'content-view@' : {
-					templateUrl : './components/faculties.html',
+					templateUrl : './components/training-programs.html',
 					controller: 'trainingCtr'
 				}
 			}
 		})
 
 		.state('app.training-programs.types', {
-			url : 'training-programs/types',
+			url : '/types',
 			views : {
 				'content-view@' : {
 					templateUrl : './components/types.html',
@@ -46,11 +46,11 @@
 		})
 
 		.state('app.training-programs.subjects', {
-			url : 'training-programs/subjects',
+			url : '/subjects',
 			views : {
 				'content-view@' : {
 					templateUrl : './components/subjects.html',
-					controller: 'trainingCtr'
+					controller: 'subjectsCtr'
 				}
 			}
 		})
@@ -64,14 +64,5 @@
 				}
 			}
 		})
-
-		.state('app.courses-map', {
-			url : 'courses-map',
-			views : {
-				'content-view@' : {
-					templateUrl : './components/courses-map.html',
-				}
-			}
-		});
 	});
 }(jQuery));

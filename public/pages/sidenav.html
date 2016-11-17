@@ -25,16 +25,9 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li><a href="../training-programs/faculties"><i class="fa fa-circle-o"></i> Quản lý khoa</a></li>
-				<li><a href="../training-programs/types"><i class="fa fa-circle-o"></i> Quản lý hệ</a></li>
-				<li><a href="../training-programs/subjects"><i class="fa fa-circle-o"></i> Quản lý môn</a></li>
+				<li ng-class="{ 'active' : $state.includes('app.training-programs.programs')}"><a href="#/training-programs/programs"><i class="fa fa-circle-o"></i> Quản lý chương trình đào tạo</a></li>
+				<li ng-class="{ 'active' : $state.includes('app.training-programs.subjects')}"><a href="#/training-programs/subjects"><i class="fa fa-circle-o"></i> Quản lý môn</a></li>
 			</ul>
-		</li>
-		<li class="treeview" ng-class="{ 'active' : $state.includes('app.courses-map')}">
-			<a href="#/courses-map">
-				<i class="fa fa-users"></i>
-				<span>Courses Map</span>
-			</a>
 		</li>
 		<li class="treeview" ng-class="{ 'active' : $state.includes('app.learning-outcomes')}">
 			<a href="#/learning-outcomes">

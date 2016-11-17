@@ -3,7 +3,7 @@ var express = require('express');
 // Controllers
 var routeProgram = require(__BASE + '/app_api/controllers/program');
 var routeSubject = require(__BASE + '/app_api/controllers/subject');
-var routeOutcome = require(__BASE + '/app_api/controllers/learning-outcomes');
+var routeOutcome = require(__BASE + '/app_api/controllers/outcome');
 
 // Config routes
 //-----------------------------------------------
@@ -37,10 +37,10 @@ router.route('/subjects/:subjectId')
   .delete(routeSubject.deleteSubject);
 
 
-router.route('/learning-outcomes')
+router.route('/outcomes')
   .post(routeOutcome.createOutcome);
 
-router.route('/learning-outcomes/:outcomeId')
+router.route('/outcomes/:outcomeId')
   .get(routeOutcome.getTreeOutcome)
   .put(routeOutcome.updateOutcome)
   .delete(routeOutcome.deleteOutcome);

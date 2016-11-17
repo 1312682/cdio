@@ -32,6 +32,7 @@ node_modules
 jspm_packages
 bower_components
 example
+.vscode
 
 # Optional npm cache directory
 .npm

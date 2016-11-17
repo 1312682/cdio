@@ -1,47 +1,43 @@
 <section class="content">
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Manage Learning Outcomes</h3>
+            <h3 class="box-title">Quản lý chuẩn đầu ra</h3>
         </div>
         <form class="form-horizontal">
             <div class="box-body">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Training Programs <span class="text-red">*</span></label>
+                    <label class="col-sm-3 control-label">Chương trình đào tạo <span class="text-red">*</span></label>
                     <div class="col-sm-4">
-                        <select class="form-control select2" style="width: 100%;">
-                            <option selected="selected">-- Training Programs --</option>
-                            <option>Alaska</option>
-                            <option>California</option>
-                            <option>Delaware</option>
-                            <option>Tennessee</option>
-                            <option>Texas</option>
-                            <option>Washington</option>
+                        <select ng-model="outcome.program" class="form-control select2" style="width: 100%;" ng-change="reloadOutcomeTree()">
+                            <option ng-repeat="item in programs">{{item}}</option>
                         </select>
                     </div>
                 </div>
                 <!-- /.form-group -->
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" for="fileLO">File <span class="text-red">*</span></label>
+                    <label class="col-sm-3 control-label" for="fileLO">Tập tin <span class="text-red">*</span></label>
                     <div class="col-sm-4">
-                        <input type="button" class="btn btn-default" value="Browse" ng-click="chooseFile()">
-                        <button type="button" class="btn btn-primary">Preview</button>
-                        <input type="file" class="btn" id="fileLO" name="upload[]" accept="application/vnd.ms-excel" style="display: none;">
-                        <p class="help-block">Only accept *.xls files</p>
+                        <input type="button" class="btn btn-default" value="Chọn tệp" ng-click="chooseFile()">
+                        <button type="button" class="btn btn-primary">Xem trước</button>
+                        <input type="file" class="btn" id="fileLO" name="upload[]" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="display: none;">
+                        <p class="help-block">Tải lên tập tin dưới dạng *.xls, *xlsx</p>
                     </div>
                 </div>
                 <!-- /.form-group -->
             </div>
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Import</button>
+                <button type="submit" class="btn btn-primary pull-right">Nhập</button>
             </div>
         </form>
     </div>
 
     <div class="box box-primary">
+        <div class="box-header with-border">
+        <input type="text" class="form-control" ng-model="search" ng-change="searchOutcomeTree()">
+        </div>
         <div class="box-body">
             <div id="container"></div>
         </div>
-
     </div>
 </section>
 <script>

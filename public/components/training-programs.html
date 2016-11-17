@@ -1,22 +1,21 @@
 <section class="content">
 	<div class="box box-primary">
 		<div class="box-header with-border">
-			<h3 class="box-title">Manage Training Programs</h3>
+			<h3 class="box-title">Quản lý chương trình đào tạo</h3>
+			<button type="submit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addtrnPrograms">+ Thêm chương trình đào tạo</button>
 		</div>
 		<form class="form-horizontal">
 			<div class="box-body">
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Faculty:<span class="text-red">*</span></label>
+					<label class="col-sm-3 control-label">Khoa:<span class="text-red">*</span></label>
 					<div class="col-sm-4">
 						<select id="faculties" ng-change="onFacultyChange()" ng-model="curFaculty" class="form-control select2 faculty" style="width: 100%;">
 								<option ng-repeat="item in faculties">{{item}}</option>
 						</select>
 					</div>
 				</div>
-			</div>
-			<div class="box-body">
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Type:<span class="text-red">*</span></label>
+					<label class="col-sm-3 control-label">Hệ:<span class="text-red">*</span></label>
 					<div class="col-sm-4">
 						<select class="form-control select2 programs" style="width: 100%;">
 								<option ng-repeat="item in programs">{{item}}</option>
@@ -24,75 +23,14 @@
 					</div>
 				</div>
 			</div>
-			<div class="box-body">
-				<div class="col-sm-4">
-					<button type="submit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addtrnPrograms">+ New Training Programs</button>
-				</div>
-			</div>
 			<div class="box-footer">
-				<button type="submit" class="btn btn-primary pull-right">Export</button>
+				<button type="submit" class="btn btn-primary pull-right">Hiển thị</button>
 			</div>
 		</form>
 	</div>
-
 	<div class="box box-primary">
 		<div class="box-body">
 			<div id="container1"></div>
-		</div>
-
-	</div>
-
-	<!-- Modal add faculty -->
-	<div class="modal fade" id="addFaculty" data-backdrop-limit="1" tabindex="-1" role="dialog">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Add Faculty</h4>
-				</div>
-				<div class="modal-body">
-					<div class="box-body">
-						<div class="form-group">
-							<label class="col-sm-3 control-label">New Faculty:<span class="text-red">*</span></label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control">
-							</div>
-							<div class="col-sm-2">
-								<button type="submit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addFaculty">Add</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Add</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Modal add type -->
-	<div class="modal fade" id="addTypes" data-backdrop-limit="1" tabindex="-1" role="dialog">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Add Types</h4>
-				</div>
-				<div class="modal-body">
-					<div class="box-body">
-						<div class="form-group">
-							<label class="col-sm-3 control-label">New Type:<span class="text-red">*</span></label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control">
-							</div>
-							<div class="col-sm-2">
-								<button type="submit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addTypes">Add</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Add</button>
-				</div>
-			</div>
 		</div>
 	</div>
 
@@ -101,32 +39,36 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Add Training Programs</h4>
+					<h4 class="modal-title">Thêm chương trình đào tạo</h4>
 				</div>
 				<div class="modal-body">
 					<div class="box-body">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Khoa:<span class="text-red">*</span></label>
-							<div class="col-sm-4">
-								<input type="text">
+							<label class="col-sm-2 control-label">Khoa:<span class="text-red">*</span></label>
+							<div class="col-sm-10">
+								<input class="form-control" type="text" ng-model="faculty" uib-typeahead="item for item in faculties | filter:$viewValue | limitTo:8">
 							</div>
 						</div>
 					</div>
 					<div class="box-body">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Hệ:<span class="text-red">*</span></label>
-							<div class="col-sm-4">
-								<input type="text">
+							<label class="col-sm-2 control-label">Hệ:<span class="text-red">*</span></label>
+							<div class="col-sm-10">
+								<input class="form-control" type="text" ng-model="type" uib-typeahead="item for item in types | filter:$viewValue | limitTo:8">
 							</div>
-							<label class="col-sm-3 control-label">Mô tả:<span class="text-red">*</span></label>
-							<div class="col-sm-4">
-								<input type="text">
-							</div>							
+						</div>
+					</div>
+					<div class="box-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Miêu tả:<span class="text-red">*</span></label>
+							<div class="col-sm-10">
+								<input class="form-control" type="text">
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Add</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Add</button>
 				</div>
 			</div>
 		</div>

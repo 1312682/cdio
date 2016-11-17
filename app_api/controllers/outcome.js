@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
 
 // Models
-var LearningOutcome = mongoose.model('LearningOutcome');
+var Outcome = mongoose.model('Outcome');
 
 // Exported methods
 //-----------------------------------------------
 module.exports.createOutcome = function (req, res, next) {
-	LearningOutcome.create({
+	Outcome.create({
 		name: req.body.name,
 		majors: req.body.majors,
 		path: req.body.path
@@ -20,9 +20,8 @@ module.exports.createOutcome = function (req, res, next) {
 };
 
 module.exports.getTreeOutcome = function (req, res, next) {
-	LearningOutcome.find({
-		path: /^,req.params.outcomeId,/
-	})
+	Outcome.where('path')
+	.regex(/^req.params.outcomeId/i)
 	.exec()
 	.then((tree) => {
 		if (!tree) {
@@ -42,29 +41,8 @@ module.exports.getTreeOutcome = function (req, res, next) {
 	});
 }
 
-// module.exports.getOutcome = function (req, res, next) {
-// 	LearningOutcome.findById(req.params.outcomeId)
-// 	.exec()
-// 	.then((learning) => {
-// 		if (!learning) {
-// 			return res.status(404).json({
-// 				message: "Learning outcome not found!!!"
-// 			});
-// 		}
-// 		else {
-// 			return res.status(200).json(learning);
-// 		}
-// 	})
-// 	.catch((err) => {
-// 		return res.status(500).json({
-// 			message: "Cannot get learning outcome",
-// 			detail: err
-// 		});
-// 	});
-// }
-
 module.exports.updateOutcome = function (req, res, next) {
-	LearningOutcome.findOneAndUpdate({ 
+	Outcome.findOneAndUpdate({ 
 		_id: req.params.outcomeId 
 	}, {
 		name: req.body.name,
@@ -91,7 +69,8 @@ module.exports.updateOutcome = function (req, res, next) {
 }
 
 module.exports.deleteOutcome = function (req, res, next) {
-	LearningOutcome.findOneAndRemove(req.params.outcomeId)
+	Outcome.findOneAndRemove(req.params.outcomeId)
+	.select()
 	.exec()
 	.then((learning) => {
 		if (!learning) {
@@ -112,4 +91,3 @@ module.exports.deleteOutcome = function (req, res, next) {
 		});
 	});
 }
-

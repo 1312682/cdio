@@ -6,9 +6,9 @@ var Schema = mongoose.Schema;
 var learningSchema = new Schema({
 	name: { type: String, required: true },
 	majors: { type: [String], required: false },
-	path: String
+	path: { type: String, default: null }
 });
 
 // Compile schema
 //-----------------------------------------------
-mongoose.model('LearningOutcome', learningSchema, 'LearningOutcomes');
+mongoose.model('Outcome', learningSchema, 'Outcomes');
