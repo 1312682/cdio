@@ -50,7 +50,7 @@
 			views : {
 				'content-view@' : {
 					templateUrl : './components/subjects.html',
-					controller: 'subjectsCtr'
+					controller: 'trainingCtr'
 				}
 			}
 		})
