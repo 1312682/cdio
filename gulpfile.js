@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var concat = require('gulp-concat');
@@ -11,7 +10,11 @@ var wiredep = require('wiredep').stream;
 var nodemon = require('gulp-nodemon');
 var browserSync = require('browser-sync').create();
 
+// Path config
+//-----------------------------------------------
 var paths = {
+  server: 'index.js',
+  build: 'public/build',
   styles: {
     src: 'public/src/styles/**/*.scss',
     dest: 'public/build/styles/'
@@ -27,6 +30,8 @@ var paths = {
   }
 };
 
+// Gulp task
+//-----------------------------------------------
 function clean() {
   return del(['public/build']);
 }
@@ -57,15 +62,49 @@ function html() {
 function watch() {
   gulp.watch(paths.scripts.src, scripts);
   gulp.watch(paths.styles.src, styles);
+  gulp.watch(paths.html.src, html);
 }
+
+function serveServer(done) {
+  var isStarted = false;
+
+  return nodemon({ scripts: paths.server })
+    .on('start', () => {
+      if (!isStarted) {
+        isStarted = true;
+
+        setTimeout(() => {
+          done();
+        }, 2000);
+      }
+    })
+    .on('restart', () => {
+      setTimeout(function () {
+        browserSync.reload({ stream: false });
+      }, 1000);
+    });
+}
+
+function serveClient(done) {
+  browserSync.init({
+    proxy: 'localhost:3000',
+    port: 7000,
+    files: paths.build,
+  }, done);
+}
+
+var serve = gulp.series(serveServer, serveClient);
 
 var build = gulp.series(clean, gulp.parallel(styles, scripts, html));
 
-var defaultTask = gulp.series(build, watch);
+var defaultTask = gulp.series(build, serve, watch);
 
+// Export task
+//-----------------------------------------------
 exports.clean = clean;
 exports.styles = styles;
 exports.scripts = scripts;
 exports.watch = watch;
+exports.serve = serve;
 exports.build = build;
 exports.default = defaultTask;
