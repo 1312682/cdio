@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.program')
+        .module('app.training')
         .run(runApp);
     
     function runApp(routerHelper) {
@@ -12,11 +12,11 @@
     function getStates() {
         return [
             {
-                state: 'program',
+                state: 'training',
                 config: {
-                    url: '/program',
-                    templateUrl: 'app/program/program.html',
-                    controller: 'ProgramController',
+                    url: '/training',
+                    templateUrl: 'app/trainingProgram/trainingProgram.html',
+                    controller: 'TrainingController',
                     controllerAs: 'vm'
                 }
             }

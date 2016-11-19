@@ -8,9 +8,9 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Chương trình đào tạo <span class="text-red">*</span></label>
                     <div class="col-sm-4">
-                        <select ng-model="outcome.program" class="form-control select2" style="width: 100%;" ng-change="reloadOutcomeTree()">
+                        <!--<select ng-model="outcome.program" class="form-control select2" style="width: 100%;" ng-change="reloadOutcomeTree()">
                             <option ng-repeat="item in programs">{{item}}</option>
-                        </select>
+                        </select>-->
                     </div>
                 </div>
                 <!-- /.form-group -->
@@ -40,8 +40,3 @@
         </div>
     </div>
 </section>
-<script>
-    $(function() {
-        $('.select2').select2();
-    });
-</script>
