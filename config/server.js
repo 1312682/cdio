@@ -20,7 +20,7 @@ app.use(morgan('dev'));
 
 // Serve client files
 //-------------------------------------------------
-app.use(express.static(__BASE + '/public'));
+app.use(express.static(__BASE + '/public/build'));
 app.use('/bower_components', express.static(__BASE + '/bower_components'));
 
 // Config routes
