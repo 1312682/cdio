@@ -20,6 +20,7 @@ var paths = {
     dest: 'public/build/styles/'
   },
   scripts: {
+    module: 'public/src/app/**/*.module.js',
     src: 'public/src/app/**/*.js',
     dest: 'public/build/scripts/'
   },
@@ -44,7 +45,7 @@ function styles() {
 }
 
 function scripts() {
-  return gulp.src(paths.scripts.src, { sourcemaps: true })
+  return gulp.src([paths.scripts.module, paths.scripts.src], { sourcemaps: true })
     .pipe(concat('app.js'))
     .pipe(ngAnnotate())
     .pipe(uglify())
