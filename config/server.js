@@ -18,16 +18,21 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false}));
 app.use(morgan('dev'));
 
-// Serve client files
-//-------------------------------------------------
-app.use(express.static(__BASE + '/public/build'));
-app.use('/bower_components', express.static(__BASE + '/bower_components'));
-
 // Config routes
 //-------------------------------------------------
 var routeApi = require(__BASE + '/app_api/routes');
 
 app.use('/api', routeApi);
+
+// Serve client files
+//-------------------------------------------------
+app.use(express.static(__BASE + '/public/build'));
+app.use('/bower_components', express.static(__BASE + '/bower_components'));
+
+// For route with AngularJs route
+app.use('/*', (req, res) => {
+  res.sendFile('public/build/index.html', { root: __BASE });
+})
 
 // Exports
 //-------------------------------------------------
