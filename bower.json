@@ -32,6 +32,7 @@
     "angular-cookies": "^1.5.8",
     "angular-ui-router": "^0.3.2",
     "angular-ui-grid": "^3.2.9",
-    "angular-ui-tree": "^2.22.1"
+    "angular-ui-tree": "^2.22.1",
+    "angular-ui-select": "^0.19.6"
   }
 }
