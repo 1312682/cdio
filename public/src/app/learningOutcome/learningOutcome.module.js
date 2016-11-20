@@ -1,7 +1,7 @@
-(function() {
-    'use strict';
+(function () {
+  'use strict';
 
-    angular.module('app.outcome', [
-        'app.core'
-    ]);
+  angular.module('app.outcome', [
+    'app.core', 'ngSanitize', 'ui.select', 'ui.tree'
+  ]);
 })();

@@ -1,42 +1,61 @@
 <section class="content">
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 class="box-title">Quản lý chuẩn đầu ra</h3>
-        </div>
-        <form class="form-horizontal">
-            <div class="box-body">
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Chương trình đào tạo <span class="text-red">*</span></label>
-                    <div class="col-sm-4">
-                        <!--<select ng-model="outcome.program" class="form-control select2" style="width: 100%;" ng-change="reloadOutcomeTree()">
-                            <option ng-repeat="item in programs">{{item}}</option>
-                        </select>-->
-                    </div>
-                </div>
-                <!-- /.form-group -->
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="fileLO">Tập tin <span class="text-red">*</span></label>
-                    <div class="col-sm-4">
-                        <input type="button" class="btn btn-default" value="Chọn tệp" ng-click="chooseFile()">
-                        <button type="button" class="btn btn-primary">Xem trước</button>
-                        <input type="file" class="btn" id="fileLO" name="upload[]" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="display: none;">
-                        <p class="help-block">Tải lên tập tin dưới dạng *.xls, *xlsx</p>
-                    </div>
-                </div>
-                <!-- /.form-group -->
-            </div>
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Nhập</button>
-            </div>
-        </form>
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title">Quản lý chuẩn đầu ra</h3>
     </div>
+    <form class="form-horizontal">
+      <div class="box-body">
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Chương trình đào tạo <span class="text-red">*</span></label>
+          <div class="col-sm-4">
+            <ui-select ng-model="vm.program" theme="bootstrap">
+              <ui-select-match placeholder="Chọn chương trình đào tạo...">{{$select.selected}}</ui-select-match>
+              <ui-select-choices repeat="item in vm.programs | filter: $select.search">
+                <div ng-bind-html="item | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+        </div>
+        <!-- /.form-group -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="fileLO">Tập tin <span class="text-red">*</span></label>
+          <div class="col-sm-4">
+            <input type="button" class="btn btn-default" value="Chọn tệp" ng-click="chooseFile()">
+            <button type="button" class="btn btn-primary">Xem trước</button>
+            <input type="file" class="btn" id="fileLO" name="upload[]" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              style="display: none;">
+            <p class="help-block">Tải lên tập tin dưới dạng *.xls, *xlsx</p>
+          </div>
+        </div>
+        <!-- /.form-group -->
+      </div>
+      <div class="box-footer">
+        <button type="submit" class="btn btn-primary pull-right">Nhập</button>
+      </div>
+    </form>
+  </div>
 
-    <div class="box box-primary">
-        <div class="box-header with-border">
-        <input type="text" class="form-control" ng-model="search" ng-change="searchOutcomeTree()">
-        </div>
-        <div class="box-body">
-            <div id="container"></div>
-        </div>
+  <div class="box box-primary">
+    <div class="box-header with-border">
+
     </div>
+    <div class="box-body">
+      <div ui-tree>
+        <ol ui-tree-nodes="" ng-model="vm.outcome">
+          <li ng-repeat="item in vm.listOutcome" ui-tree-node>
+            <div ui-tree-handle>
+              {{item.title}}
+            </div>
+            <ol ui-tree-nodes="" ng-model="item.children">
+              <li ng-repeat="subItem in item.children" ui-tree-node>
+                <div ui-tree-handle>
+                  {{subItem.title}}
+                </div>
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
 </section>
