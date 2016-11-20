@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
+var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var ngAnnotate = require('gulp-ng-annotate');
@@ -15,6 +16,10 @@ var browserSync = require('browser-sync').create();
 var paths = {
   server: 'index.js',
   build: 'public/build',
+  fonts: {
+    fontawesome: 'bower_components/font-awesome/fonts/*',
+    dest: 'public/build/fonts'
+  },
   styles: {
     src: 'public/src/styles/**/*.scss',
     dest: 'public/build/styles/'
@@ -37,18 +42,28 @@ function clean() {
   return del(['public/build']);
 }
 
+function fonts() {
+  return gulp.src(paths.fonts.fontawesome)
+    .pipe(gulp.dest(paths.fonts.dest));
+}
+
 function styles() {
-  return gulp.src(paths.styles.src, { sourcemaps: true })
-    .pipe(wiredep())
+  return gulp.src(paths.styles.src)
+    .pipe(sourcemaps.init())
+    .pipe(wiredep({
+    }))
     .pipe(sass().on('error', sass.logError))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.styles.dest));
 }
 
 function scripts() {
-  return gulp.src([paths.scripts.module, paths.scripts.src], { sourcemaps: true })
+  return gulp.src([paths.scripts.module, paths.scripts.src])
+    .pipe(sourcemaps.init())
     .pipe(concat('app.js'))
     .pipe(ngAnnotate())
     .pipe(uglify())
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.scripts.dest));
 }
 
@@ -96,13 +111,14 @@ function serveClient(done) {
 
 var serve = gulp.series(serveServer, serveClient);
 
-var build = gulp.series(clean, gulp.parallel(styles, scripts, html));
+var build = gulp.series(clean, gulp.parallel(fonts, styles, scripts, html));
 
 var defaultTask = gulp.series(build, serve, watch);
 
 // Export task
 //-----------------------------------------------
 exports.clean = clean;
+exports.fonts = fonts
 exports.styles = styles;
 exports.scripts = scripts;
 exports.watch = watch;

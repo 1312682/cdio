@@ -6,6 +6,7 @@
   <title>CDIO - Home</title>
   <base href="/">
 
+  <link rel="stylesheet" href="styles/style.css">
   <!-- bower:css -->
   <link rel="stylesheet" href="../../bower_components/sweetalert/dist/sweetalert.css" />
   <link rel="stylesheet" href="../../bower_components/jstree/dist/themes/default/style.css" />
@@ -29,13 +30,10 @@
   <!-- endbower -->
 </head>
 
-<body ng-app="app">
-  <!-- Shell -->
-  <div ui-view></div>
+<body ng-app="app" ng-include="'app/layout/shell.html'">
 
   <!-- Reference -->
   <script src="scripts/app.js"></script>
-  <link rel="stylesheet" href="styles/style.css">
 </body>
 
 </html>
