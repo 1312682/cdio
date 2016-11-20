@@ -6,6 +6,7 @@
   <title>index</title>
   <base href="/">
 
+  <link rel="stylesheet" href="styles/style.css">
   <!-- bower:css -->
   <!-- endbower -->
 
@@ -13,13 +14,10 @@
   <!-- endbower -->
 </head>
 
-<body ng-app="app">
-  <!-- Shell -->
-  <div ui-view></div>
+<body ng-app="app" ng-include="'app/layout/shell.html'">
 
   <!-- Reference -->
   <script src="scripts/app.js"></script>
-  <link rel="stylesheet" href="styles/style.css">
 </body>
 
 </html>

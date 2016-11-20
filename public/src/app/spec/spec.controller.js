@@ -2,8 +2,8 @@
 'use strict';
 
   angular
-    .module('app')
-    .controller('ProgramController', ProgramController);
+    .module('app.spec')
+    .controller('SpecController', ProgramController);
 
   //ProgramController.$inject = [''];
   function ProgramController() {

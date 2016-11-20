@@ -1,5 +1,18 @@
+// Dependencies
 // bower:scss
 // endbower
+
+// Core variables and mixins
+@import 'variables';
+@import 'mixins';
+
+@import 'base';
+@import 'hamburg';
+@import 'content';
+@import 'sidebar';
+@import 'header';
+@import 'loading';
+@import 'widget';
 
 body {
   background-color: #fff;
