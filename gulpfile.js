@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var merge = require('gulp-merge');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var sourcemaps = require('gulp-sourcemaps');
@@ -21,7 +22,8 @@ var paths = {
     dest: 'public/build/fonts'
   },
   styles: {
-    src: 'public/src/styles/**/*.scss',
+    wiredep: 'public/src/styles/style.scss',
+    partial: 'public/src/styles/**/_*.scss',
     dest: 'public/build/styles/'
   },
   scripts: {
@@ -48,10 +50,12 @@ function fonts() {
 }
 
 function styles() {
-  return gulp.src(paths.styles.src)
-    .pipe(sourcemaps.init())
-    .pipe(wiredep({
-    }))
+  return merge(
+      gulp.src((paths.styles.wiredep))
+        .pipe(wiredep()),
+      gulp.src(paths.styles.partial)
+    )
+    .pipe(sourcemaps.init()) 
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.styles.dest));
@@ -61,8 +65,8 @@ function scripts() {
   return gulp.src([paths.scripts.module, paths.scripts.src])
     .pipe(sourcemaps.init())
     .pipe(concat('app.js'))
-    .pipe(ngAnnotate())
-    .pipe(uglify())
+    //.pipe(ngAnnotate())
+    //.pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.scripts.dest));
 }
@@ -77,7 +81,7 @@ function html() {
 
 function watch() {
   gulp.watch(paths.scripts.src, scripts);
-  gulp.watch(paths.styles.src, styles);
+  gulp.watch([paths.styles.partial, paths.styles.wiredep], styles);
   gulp.watch(paths.html.src, html);
 }
 

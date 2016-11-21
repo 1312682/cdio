@@ -5,10 +5,9 @@
     .module('app.spec')
     .controller('SpecController', ProgramController);
 
-  //ProgramController.$inject = [''];
-  function ProgramController() {
+  ProgramController.$inject = ['header'];
+  function ProgramController(header) {
     var vm = this;
-    
     vm.data = {};
 
     activate();
@@ -16,7 +15,7 @@
     ////////////////
 
     function activate() { 
-      vm.data = 'abcdef';
+      header.setHeader('Specification');
     }
   }
 })();
