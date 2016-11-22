@@ -1,44 +1,67 @@
-(function () {
-  'use strict';
+(function() {
+    'use strict';
 
-  angular
-    .module('app.outcome')
-    .controller('OutcomeController', OutcomeController);
+    angular
+        .module('app.outcome')
+        .controller('OutcomeController', OutcomeController);
 
-  OutcomeController.$inject = ['$http'];
-  function OutcomeController($http) {
-    var vm = this;
+    OutcomeController.$inject = ['$http', '$timeout', '$scope'];
+    function OutcomeController($http, $timeout, $scope) {
+        var vm = this;
 
-    vm.program = "";
-    vm.treeOptions = {
+        vm.program = "";
+        vm.newNode = {};
+        vm.dragEnabled = false;
 
-    };
-    
-    activate();
-
-    ////////////////
-
-    function activate() {
-      vm.programs = ["Công nghệ thông tin - Hệ Chính qui", "Công nghệ thông tin - Hệ Cao đẳng", "Công nghệ thông tin - Hệ chất lượng cao"];
-
-      vm.listOutcome = [
-        {
-          title: "Node 1",
-          children: [
-            {
-              title: "Node 1.1",
-              children: [
-                {
-                  title: "Node 1.1.1"
-                }
-              ]
-            },
-            {
-              title: "Node 1.2"
+        vm.treeOptions = {
+            toggle: function(collapsed, sourceNodeScope) {
+                return !collapsed;
             }
-          ]
         }
-      ]
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+            vm.programs = ["CNTT - Hệ Chính Quy", "CNTT - Hệ Cao Đẳng", "CNTT - Hoàn Chỉnh"];
+            vm.treeData = [
+                {
+                    'id': 1,
+                    'title': 'Node 1',
+                    'nodes': [
+                        {
+                            'id': 11,
+                            'title': 'Node 1.1',
+                            'nodes': []
+                        },
+                        {
+                            'id': 12,
+                            'title': 'Node 1.2',
+                            'nodes': [
+                                {
+                                    'id': 121,
+                                    'title': 'Node 1.2.1',
+                                    'nodes': []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    'id': '2',
+                    'title': 'Node 2',
+                    'nodes': []
+                }
+            ];
+        }
+
+        vm.toggle = function toggle(node) {
+            node.toggle();
+        }
+
+        vm.collapsed = function collapse() {
+            $scope.$broadcast('angular-ui-tree:collapse-all');
+        }
     }
-  }
 })();
