@@ -1,22 +1,27 @@
-<!-- Sidebar -->
-<div id="sidebar-wrapper">
+<div id="sidebar-wrapper" ng-controller="SidebarController as sidebarVm">
   <ul class="sidebar">
     <li class="sidebar-main">
-      <a ng-click="vm.ToggleSidebar()">CDIO
+      <a ng-click="shellVm.ToggleSidebar()">Dashboard
         <span class="menu-icon fa fa-bars"></span>
       </a>
     </li>
     <li class="sidebar-title">
       <span>Menu</span>
     </li>
-    <li class="sidebar-list">
+    <li class="sidebar-list" ng-class="{ selected: sidebarVm.selectedItem === 'spec' }">
       <a href="spec">Spec <span class="menu-icon fa fa-puzzle-piece"></span></a>
     </li>
-    <li class="sidebar-list">
+    <li class="sidebar-list" ng-class="{ selected: sidebarVm.selectedItem === 'training' }">
       <a href="training">Chương trình đào tạo <span class="menu-icon fa fa-briefcase"></span></a>
     </li>
-    <li class="sidebar-list">
+    <li class="sidebar-list" ng-class="{ selected: sidebarVm.selectedItem === 'outcome' }">
       <a href="outcome">Chuẩn đầu ra <span class="menu-icon fa fa-exchange"></span></a>
+    </li>
+    <li class="sidebar-title">
+      <span>TEST</span>
+    </li>
+    <li class="sidebar-list" ng-class="{ selected: sidebarVm.selectedItem === 'test' }">
+      <a href="test">Test <span class="menu-icon fa fa-file-text"></span></a>
     </li>
   </ul>
   <div class="sidebar-footer">
@@ -31,4 +36,3 @@
     </div>
   </div>
 </div>
-<!-- End Sidebar -->

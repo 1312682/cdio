@@ -1,14 +1,15 @@
-<div ng-controller="ShellController as vm">
-  <div id="page-wrapper" ng-class="{'open': vm.toggle}" ng-cloak>
+<div ng-controller="ShellController as shellVm">
+  <div id="page-wrapper" ng-class="{'open': shellVm.toggle}" ng-cloak>
     <div id="content-wrapper">
+      <!-- Sidebar -->
       <div ng-include="'app/layout/sidebar.html'"></div>
 
       <div class="page-content">
+        <!-- Header -->
         <div ng-include="'app/layout/header.html'"></div>
 
         <!-- Main Content -->
         <div ui-view></div>
-
       </div>
     </div>
   </div>
