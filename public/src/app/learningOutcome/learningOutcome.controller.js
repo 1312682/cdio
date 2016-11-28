@@ -1,23 +1,27 @@
-(function() {
+(function () {
     'use strict';
 
     angular
         .module('app.outcome')
         .controller('OutcomeController', OutcomeController);
 
-    OutcomeController.$inject = ['$http', '$timeout', '$scope'];
-    function OutcomeController($http, $timeout, $scope) {
+    OutcomeController.$inject = ['$http', '$timeout', '$scope', 'toaster'];
+    function OutcomeController($http, $timeout, $scope, toaster) {
         var vm = this;
+        window.sc = vm;
 
+        // Variables
         vm.program = "";
-        vm.newNode = {};
+        vm.newNode = "";
+        vm.currentNode = "";
+        vm.nodes = [];
         vm.dragEnabled = false;
 
-        vm.treeOptions = {
-            toggle: function(collapsed, sourceNodeScope) {
-                return !collapsed;
-            }
-        }
+        // Methods
+        vm.toggle = toggle;
+        vm.addSubNode = addSubNode;
+        vm.remove = remove;
+
 
         activate();
 
@@ -54,14 +58,39 @@
                     'nodes': []
                 }
             ];
+
+            eachRecursive(vm.treeData);
         }
 
-        vm.toggle = function toggle(node) {
+        function eachRecursive(tree) {
+            for (var key in tree) {
+                if (typeof tree[key] == "object" && tree[key] !== null) {
+                    var node = {
+                        id: tree[key].id,
+                        title: tree[key].title
+                    }
+                    vm.nodes.push(node);
+                    eachRecursive(tree[key].nodes);
+                }
+            }
+        }
+
+        function toggle(node) {
             node.toggle();
         }
 
-        vm.collapsed = function collapse() {
-            $scope.$broadcast('angular-ui-tree:collapse-all');
+        function addSubNode(tree) {
+            var node = tree.$nodeScope.$modelValue;
+            node.nodes.push({
+                id: node.id + "0",
+                title: vm.newNode,
+                nodes: []
+            });
+            toaster.pop('success', "Success", "Add new learning outcome!!!");
+        }
+
+        function remove(node) {
+            node.remove();
         }
     }
 })();

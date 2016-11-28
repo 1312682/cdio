@@ -43,10 +43,9 @@
       <div class="box-header with-border">
         <h3 class="box-title">Danh sách chuẩn đầu ra</h3>
         <button type="button" class="btn btn-warning pull-right" id="btnEdit">Sửa</button>
-        <button type="button" class="btn btn-default pull-right" id="btnCollapse" ng-click="vm.collapse()">Thu gọn</button>
       </div>
       <div class="box-body">
-        <div ui-tree="vm.treeOptions" data-drag-enabled="vm.dragEnabled">
+        <div ui-tree data-drag-enabled="vm.dragEnabled" data-max-depth="4">
           <ol ui-tree-nodes ng-model="vm.treeData" id="tree-root">
             <li ng-repeat="node in vm.treeData" ui-tree-node ng-include="'nodes_renderer.html'"></li>
           </ol>
@@ -65,25 +64,14 @@
           <div class="form-group">
             <label for="addNode" class="col-sm-3 control-label">Chuẩn mới</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="addNode" ng-model="vm.newNode.text" name="addNode" placeholder="Chuẩn mới..."
+              <input type="text" class="form-control" id="addNode" ng-model="vm.newNode" name="addNode" placeholder="Chuẩn mới..."
                 required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="nodeParent" class="col-sm-3 control-label">Chuẩn đầu ra :</label>
-            <div class="col-sm-9">
-              <ui-select ng-model="vm.newNode.parent" theme="bootstrap" required>
-                <ui-select-match placeholder="Chọn chuẩn đầu ra cấp trên...">{{$select.selected}}</ui-select-match>
-                <ui-select-choices repeat="item in vm.treeData | filter: $select.search">
-                  <div ng-bind-html="item.title | highlight: $select.search"></div>
-                </ui-select-choices>
-              </ui-select>
             </div>
           </div>
         </form>
       </div>
       <div class="box-footer">
-        <button type="button" ng-disabled="newNodeForm.$invalid" ng-click="vm.addNewNode()" class="btn btn-success pull-right">Thêm chuẩn đầu ra</button>
+        <button type="button" ng-disabled="newNodeForm.$invalid" ng-click="vm.addSubNode()" class="btn btn-primary pull-right">Thêm chuẩn đầu ra</button>
       </div>
     </div>
   </section>
@@ -91,13 +79,14 @@
 
 <script type="text/ng-template" id="nodes_renderer.html">
   <div ui-tree-handle>
-    <a class="btn btn-success btn-xs btn-collapse" ng-if="node.nodes && node.nodes.length > 0" data-nodrag ng-click="vm.toggle(this)">
+    <a class="btn btn-primary btn-xs btn-collapse" ng-if="node.nodes && node.nodes.length > 0" data-nodrag ng-click="vm.toggle(this)">
       <span class="fa fa-angle-right" ng-class="{ 'fa-angle-right': collapsed, 'fa-angle-down': !collapsed }"></span>
     </a>
     {{node.title}}
+    <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="vm.remove(this)"><span class="fa fa-remove"></span></a>
+    <a class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="vm.addSubNode(this)" style="margin-right: 8px;"><span class="fa fa-plus"></span></a>
   </div>
-  <ol ui-tree-nodes="" ng-model="node.nodes">
-    <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
-    </li>
+  <ol ui-tree-nodes="" ng-model="node.nodes" ng-if="node.nodes.length > 0" ng-class="{ 'hidden' : collapsed}">
+    <li ng-repeat="node in node.nodes" ui-tree-node data-nodrag ng-include="'nodes_renderer.html'"></li>
   </ol>
 </script>

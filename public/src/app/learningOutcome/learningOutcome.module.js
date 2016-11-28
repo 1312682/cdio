@@ -2,6 +2,6 @@
   'use strict';
 
   angular.module('app.outcome', [
-    'app.core', 'ngSanitize', 'ui.select', 'ui.tree'
+    'app.core', 'ngSanitize', 'ui.select', 'ui.tree', 'toaster'
   ]);
 })();
