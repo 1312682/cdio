@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('app.core', [
-    'ngCookies',
+    'ngCookies', 'ngResource',
     'blocks.router',
     'ui.bootstrap'
   ]);

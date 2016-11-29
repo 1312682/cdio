@@ -64,8 +64,7 @@
           <div class="form-group">
             <label for="addNode" class="col-sm-3 control-label">Chuẩn mới</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="addNode" ng-model="vm.newNode" name="addNode" placeholder="Chuẩn mới..."
-                required>
+              <input type="text" class="form-control" id="addNode" ng-model="vm.newNode" name="addNode" placeholder="Chuẩn mới..." required>
             </div>
           </div>
         </form>
@@ -89,4 +88,17 @@
   <ol ui-tree-nodes="" ng-model="node.nodes" ng-if="node.nodes.length > 0" ng-class="{ 'hidden' : collapsed}">
     <li ng-repeat="node in node.nodes" ui-tree-node data-nodrag ng-include="'nodes_renderer.html'"></li>
   </ol>
+</script>
+
+<script type="text/ng-template" id="node_content.html">
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Nội dung của chuẩn mới</h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <input type="text" id="node-content">
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="">OK</button>
+    <button class="btn btn-default" type="button" ng-click="">Cancel</button>
+  </div>
 </script>

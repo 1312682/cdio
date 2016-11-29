@@ -19,9 +19,8 @@
 
         // Methods
         vm.toggle = toggle;
-        vm.addSubNode = addSubNode;
         vm.remove = remove;
-
+        vm.addSubNode = addSubNode;
 
         activate();
 
@@ -79,6 +78,10 @@
             node.toggle();
         }
 
+        function remove(node) {
+            node.remove();
+        }
+
         function addSubNode(tree) {
             var node = tree.$nodeScope.$modelValue;
             node.nodes.push({
@@ -87,10 +90,6 @@
                 nodes: []
             });
             toaster.pop('success', "Success", "Add new learning outcome!!!");
-        }
-
-        function remove(node) {
-            node.remove();
         }
     }
 })();

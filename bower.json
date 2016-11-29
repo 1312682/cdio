@@ -35,6 +35,7 @@
     "angular-ui-grid": "^3.2.9",
     "angular-ui-select": "^0.19.6",
     "AngularJS-Toaster": "angularjs-toaster#^2.1.0",
-    "angular-ui-tree": "^2.22.1"
+    "angular-ui-tree": "^2.22.1",
+    "angular-resource": "^1.5.8"
   }
 }
