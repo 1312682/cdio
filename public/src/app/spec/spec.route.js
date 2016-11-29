@@ -19,6 +19,15 @@
                     controller: 'SpecController',
                     controllerAs: 'vm'
                 }
+            },
+            {
+                state: 'test',
+                config: {
+                    url: '/test',
+                    template: '<h1>Test</h1>',
+                    controller: 'TestController',
+                    controllerAs: 'vm'
+                }
             }
         ];
     }

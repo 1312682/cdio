@@ -64,7 +64,7 @@ ul.sidebar {
             color: #b2bfdc;
             line-height: 40px;
         }
-        a:hover {
+        &.selected a, &:not(.selected) a:hover {
             color: #fff;
             border-left: 3px solid $sidebarMenuItemHover;
             text-indent: 22px;
@@ -94,7 +94,7 @@ ul.sidebar {
             margin: 13px 0;
         }
         .sidebar-list {
-            a:hover {
+            &.selected a, &:not(.selected) a:hover {
                 span {
                     border-left: 3px solid #e99d1a;
                     text-indent: 22px;

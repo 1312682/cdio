@@ -1,14 +1,12 @@
-<div class="row header">
+<div class="row header" ng-controller="HeaderController as headerVm">
   <div class="col-xs-12">
     <div class="user pull-right">
       <div class="item dropdown" uib-dropdown>
         <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
-          <img src="img/avatar.jpg">
+          <img src="http://placehold.it/300x300">
         </a>
         <ul class="dropdown-menu dropdown-menu-right">
-          <li class="dropdown-header">
-            Joe Bloggs
-          </li>
+          <li class="dropdown-header">Joe Bloggs</li>
           <li class="divider"></li>
           <li class="link">
             <a href="#">Profile</a>
@@ -33,8 +31,8 @@
       </div>
     </div>
     <div class="meta">
-      <div class="page">Dashboard</div>
-      <div class="breadcrumb-links">Home / Dashboard</div>
+      <div class="page">{{headerVm.header}}</div>
+      <!--<div class="breadcrumb-links">Home / Dashboard</div>-->
     </div>
   </div>
 </div>
