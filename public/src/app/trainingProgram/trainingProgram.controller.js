@@ -1,4 +1,3 @@
-angular.module('ui.bootstrap.demo', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 (function () {
     'use strict';
 
@@ -6,8 +5,8 @@ angular.module('ui.bootstrap.demo', ['ngAnimate', 'ngSanitize', 'ui.bootstrap'])
         .module('app.training')
         .controller('TrainingController', TrainingController);
 
-    TrainingController.$inject = ['$http','$uibModal', '$log', '$document'];
-    function TrainingController($http, $uibModal, $log, $document) {
+    TrainingController.$inject = ['$http', '$uibModal', '$log', '$document', 'toaster'];
+    function TrainingController($http, $uibModal, $log, $document, toaster) {
         var vm = this;
 
         activate();
@@ -34,29 +33,32 @@ angular.module('ui.bootstrap.demo', ['ngAnimate', 'ngSanitize', 'ui.bootstrap'])
                 size: size,
                 appendTo: parentElem,
                 resolve: {
-    
+
                 }
             });
 
             modalInstance.result.then(function () {
-                
+
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
+                toaster.pop('success', "Success", "Added new training program!!!");
             });
         };
     }
 })();
 
 angular.module('app.training').controller('ModalInstanceCtrl', function ($uibModalInstance) {
-  var vm = this;
+    var vm = this;
+    vm.faculties = ["Công nghệ thông tin", "Sinh - Công nghệ sinh", "Toán - Toán tin", "Vật lí", "Hóa học", "Môi trường"];
+    vm.types = ["Chính quy", "Cao Đẳng", "Chất Lượng Cao"];
+    vm.add = function () {
+        $uibModalInstance.close();
 
-  vm.add = function () {
-    $uibModalInstance.close();
-  };
+    };
 
-  vm.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
-  };
+    vm.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 });
 
 

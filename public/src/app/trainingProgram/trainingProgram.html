@@ -42,9 +42,9 @@
 </section>
 
 <!-- Modal add training programs -->
-<div ng-controller="TrainingController as vm" class="modal-demo">
+<div class="modal-demo">
     <script type="text/ng-template" id="myModalContent.html">
-        <div class="<moda></moda>l-dialog" role="document">
+        <div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title">Thêm chương trình đào tạo</h4>
@@ -54,7 +54,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Khoa:<span class="text-red">*</span></label>
 							<div class="col-sm-10">
-								<input class="form-control" type="text" ng-model="faculty" uib-typeahead="item for item in faculties | filter:$viewValue | limitTo:8">
+								<input class="form-control" type="text" ng-model="vm.faculty" uib-typeahead="item for item in vm.faculties | filter:$viewValue | limitTo:8">
 							</div>
 						</div>
 					</div>
@@ -62,7 +62,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Hệ:<span class="text-red">*</span></label>
 							<div class="col-sm-10">
-								<input class="form-control" type="text" ng-model="type" uib-typeahead="item for item in types | filter:$viewValue | limitTo:8">
+								<input class="form-control" type="text" ng-model="vm.type" uib-typeahead="item for item in vm.types | filter:$viewValue | limitTo:8">
 							</div>
 						</div>
 					</div>
