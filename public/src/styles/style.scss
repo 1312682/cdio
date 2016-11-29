@@ -9,10 +9,13 @@
 @import 'base';
 @import 'hamburg';
 @import 'content';
-@import 'sidebar';
 @import 'header';
 @import 'loading';
-@import 'widget';
+@import 'utilities';
+@import 'table';
+@import 'components/sidebar';
+@import 'components/widget';
+@import 'components//input';
 
 body {
   background-color: #fff;

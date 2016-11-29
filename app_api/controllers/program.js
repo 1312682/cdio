@@ -298,7 +298,10 @@ module.exports.deleteBlock = function (req, res, next) {
 };
 
 module.exports.getAllFaculty = function (req, res, next) {
-  Program.find()
+  Program
+    .find({
+      faculty: new RegExp(req.query.name)
+    })
     .distinct('faculty')
     .exec()
     .then((program) => {
@@ -313,7 +316,9 @@ module.exports.getAllFaculty = function (req, res, next) {
 };
 
 module.exports.getAllType = function (req, res, next) {
-  Program.find()
+  Program.find({
+    type: new RegExp(req.query.name)
+  })
     .distinct('type')
     .exec()
     .then((program) => {
