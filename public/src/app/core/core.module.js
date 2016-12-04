@@ -3,7 +3,7 @@
 
   angular.module('app.core', [
     'ngCookies', 'ngResource',
-    'blocks.router',
+    'blocks.router', 'toaster',
     'ui.bootstrap'
   ]);
 })();

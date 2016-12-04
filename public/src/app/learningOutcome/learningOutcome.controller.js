@@ -5,8 +5,8 @@
         .module('app.outcome')
         .controller('OutcomeController', OutcomeController);
 
-    OutcomeController.$inject = ['$http', '$timeout', '$scope', 'toaster'];
-    function OutcomeController($http, $timeout, $scope, toaster) {
+    OutcomeController.$inject = ['$http', '$timeout', 'toaster', '$uibModal', 'Outcome'];
+    function OutcomeController($http, $timeout, toaster, $uibModal, Outcome) {
         var vm = this;
         window.sc = vm;
 
@@ -18,9 +18,9 @@
         vm.dragEnabled = false;
 
         // Methods
-        vm.toggle = toggle;
-        vm.remove = remove;
-        vm.addSubNode = addSubNode;
+        vm.Toggle = toggle;
+        vm.Remove = remove;
+        vm.AddSubNode = addSubNode;
 
         activate();
 
@@ -58,20 +58,8 @@
                 }
             ];
 
-            eachRecursive(vm.treeData);
-        }
-
-        function eachRecursive(tree) {
-            for (var key in tree) {
-                if (typeof tree[key] == "object" && tree[key] !== null) {
-                    var node = {
-                        id: tree[key].id,
-                        title: tree[key].title
-                    }
-                    vm.nodes.push(node);
-                    eachRecursive(tree[key].nodes);
-                }
-            }
+            vm.nodes = Outcome.toMaterializePath(vm.treeData, vm.nodes, "");
+            console.log(vm.nodes);
         }
 
         function toggle(node) {
@@ -83,13 +71,22 @@
         }
 
         function addSubNode(tree) {
-            var node = tree.$nodeScope.$modelValue;
-            node.nodes.push({
-                id: node.id + "0",
-                title: vm.newNode,
-                nodes: []
-            });
-            toaster.pop('success', "Success", "Add new learning outcome!!!");
+            $uibModal.open({
+                controller: 'AddOutcomeController',
+                controllerAs: 'vm',
+                templateUrl: 'app/learningOutcome/addOutcome.html',
+                size: 'lg'
+            }).result.then(function (outcome) {
+                var node = tree.$nodeScope.$modelValue;
+                node.nodes.push({
+                    id: outcome._id,
+                    title: outcome.name,
+                    majors: outcome.majors,
+                    nodes: []
+                });
+                toaster.pop('success', "Success", "Add new learning outcome!!!");
+            })
+
         }
     }
 })();
