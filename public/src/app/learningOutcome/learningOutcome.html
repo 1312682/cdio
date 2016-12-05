@@ -22,10 +22,9 @@
           <div class="form-group">
             <label class="col-sm-3 control-label" for="fileLO">Tập tin <span class="text-red">*</span></label>
             <div class="col-sm-4">
-              <input type="button" class="btn btn-default" value="Chọn tệp" ng-click="chooseFile()">
+              <input type="button" class="btn btn-default" value="Chọn tệp" ng-click="vm.ChooseFile()">
               <button type="button" class="btn btn-primary">Xem trước</button>
-              <input type="file" class="btn" id="fileLO" name="upload[]" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                style="display: none;">
+              <js-xls onread="read" onerror="error" style="display: none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="jsExcelFile"></js-xls>
               <p class="help-block">Tải lên tập tin dưới dạng *.xls, *xlsx</p>
             </div>
           </div>
