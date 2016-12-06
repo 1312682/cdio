@@ -16,11 +16,13 @@
     });
 
     var OutcomeTree = [];
+    var ExcelArr = [];
 
     var service = {
       toMaterializePath: toMaterializePath,
       readExcelFile: readExcelFile,
       convertToChar: convertToChar,
+      setParent: setParent,
       excelToTree: excelToTree,
     };
 
@@ -60,7 +62,9 @@
 
     function readExcelFile(workbook) {
       var sheet = workbook.Sheets["Learning Outcomes"];
+      var parent = { root: "#", level1: "", level2: "", level3: "" };
 
+      // Get range of Excel file
       var range = {
         start: {
           col: sheet["!range"].s.c + 1,
@@ -72,13 +76,10 @@
         }
       }
 
-      var atom = [];
       for (var R = range.start.row; R <= range.end.row; ++R) {
         var cell = [];
         for (var C = range.start.col; C <= range.end.col; ++C) {
-          var cell_address = { c: C, r: R };
-          var cell_name = convertToChar(cell_address.c);
-          var cell_obj = sheet[cell_name + cell_address.r.toString()];
+          var cell_obj = sheet[convertToChar(C) + R];
 
           if (cell_obj === undefined) {
             cell.push("0");
@@ -86,26 +87,56 @@
             cell.push(cell_obj.v.toString());
           }
         }
-        atom.push(cell);
-      }
 
-      return atom;
+        if (cell[3] !== "0") {
+          var node = {
+            id: cell[0] + cell[1] + cell[2],
+            title: cell[3],
+            nodes: [],
+          }
+          parent = setParent(node, parent);
+        }
+      }
+      excelToTree(ExcelArr);
+
+      return OutcomeTree;
     }
 
+    // Get name of column
     function convertToChar(index) {
       var char = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
       return char[index - 1];
     }
 
-    function excelToTree(data, parent) {
-      for (var key in data) {
-        if (parseInt(data[key][0]) !== 0 && parseInt(data[key][])) {
-          var node = {
-            id: data[key][0],
-            title: data[key][3],
-            nodes: []
-          }
+    // Check parent of node
+    function setParent(node, parent) {
+      if (node.id === "000") {
+        node.parent = parent.level3;
+      } else if (node.id % 10 > 0) {
+        node.parent = parent.level2;
+        parent.level3 = node.id;
+      } else if (node.id % 100 > 0) {
+        node.parent = parent.level1;
+        parent.level2 = node.id;
+      } else {
+        node.parent = parent.root;
+        parent.level1 = node.id;
+      }
+
+      ExcelArr.push(node);
+      return parent;
+    }
+
+    function excelToTree(data) {
+      var map = {};
+      for (var i = 0; i < data.length; i++) {
+        var node = data[i];
+        map[node.id] = i; // use map to look-up the parents
+        if (node.parent !== "#") {
+          data[map[node.parent]].nodes.push(node);
+        } else {
+          OutcomeTree.push(node);
         }
       }
     }

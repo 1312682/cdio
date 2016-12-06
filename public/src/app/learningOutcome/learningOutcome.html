@@ -37,7 +37,7 @@
     </div>
   </section>
 
-  <section class="col-lg-7 connectedSortable">
+  <section class="col-lg-12 connectedSortable">
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title">Danh sách chuẩn đầu ra</h3>
@@ -45,8 +45,8 @@
       </div>
       <div class="box-body">
         <div ui-tree data-drag-enabled="vm.dragEnabled" data-max-depth="4">
-          <ol ui-tree-nodes ng-model="vm.treeData" id="tree-root">
-            <li ng-repeat="node in vm.treeData" ui-tree-node ng-include="'app/learningOutcome/nodeOutcome.html'"></li>
+          <ol ui-tree-nodes ng-model="vm.tree" id="tree-root">
+            <li ng-repeat="node in vm.tree" ui-tree-node ng-include="'app/learningOutcome/nodeOutcome.html'"></li>
           </ol>
         </div>
       </div>

@@ -31,34 +31,8 @@
 
     function activate() {
       vm.programs = ["CNTT - Hệ Chính Quy", "CNTT - Hệ Cao Đẳng", "CNTT - Hoàn Chỉnh"];
-      vm.treeData = [{
-          'id': 1,
-          'title': 'Node 1',
-          'nodes': [{
-              'id': 11,
-              'title': 'Node 1.1',
-              'nodes': []
-            },
-            {
-              'id': 12,
-              'title': 'Node 1.2',
-              'nodes': [{
-                'id': 121,
-                'title': 'Node 1.2.1',
-                'nodes': []
-              }]
-            }
-          ]
-        },
-        {
-          'id': '2',
-          'title': 'Node 2',
-          'nodes': []
-        }
-      ];
 
-      // Change structure of data.
-      vm.nodes = Outcome.toMaterializePath(vm.treeData, vm.nodes, "");
+      //vm.nodes = Outcome.toMaterializePath(vm.tree, vm.nodes, "");
     }
 
     // Tree events
@@ -96,6 +70,7 @@
 
     $scope.read = function read(workbook) {
       vm.tree = Outcome.readExcelFile(workbook);
+      $scope.$evalAsync();
       console.log(vm.tree);
     };
 
