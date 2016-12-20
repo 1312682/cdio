@@ -1,5 +1,5 @@
 <ol>
   <li ng-repeat="block in vm.data | filter: vm.tagFilter: true: majors">
-    <block-node program-id="vm.programId" data="block" tag-filter="vm.tagFilter">
+    <block-node program-id="vm.programId" data="block" tag-filter="vm.tagFilter" editable="{{vm.isEditable}}">
   </li>
 </ul>

@@ -22,7 +22,8 @@
       scope: {
         programId: '=',
         data: '=',
-        tagFilter: '='
+        tagFilter: '=',
+        isEditable: '@editable'
       }
     };
     return directive;
@@ -45,6 +46,7 @@
     ////////////////
 
     function activate() {
+      console.log(vm.isEditable)
     }
 
     function deleteBlock() {

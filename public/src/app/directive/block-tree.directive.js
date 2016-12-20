@@ -21,7 +21,8 @@
       scope: {
         programId: '=',
         data: '=',
-        tagFilter: '='
+        tagFilter: '=',
+        isEditable: '@editable'
       }
     };
     return directive;
@@ -31,6 +32,5 @@
   }
   /* @ngInject */
   function BlockTreeController() {
-    console.log(this.tagFilter);
   }
 })();

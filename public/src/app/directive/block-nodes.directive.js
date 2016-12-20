@@ -21,7 +21,8 @@
       scope: {
         programId: '=',
         data: '=',
-        tagFilter: '='
+        tagFilter: '=',
+        isEditable: '@editable'
       },
     };
     return directive;
