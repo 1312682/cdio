@@ -2,6 +2,6 @@
   'use strict';
 
   angular.module('app', [
-    'app.core', 'app.training', 'app.outcome', 'app.program'
+    'app.core', 'app.outcome', 'app.program'
   ]);
 })();

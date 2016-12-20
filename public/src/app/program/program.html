@@ -2,7 +2,9 @@
   <widget class="col-lg-12">
     <widget-header title="Chương trình đào tạo" icon="fa-drivers-license-o">
       <input class="form-control input-sm filter-bar" type="text" placeholder="Lọc" ng-model="vm.programFilter" autofocus>
-      <button class="btn btn-sm btn-primary" ng-click="vm.AddProgram()">Thêm</button>
+      <button type="button" class="btn btn-sm btn-danger" ng-click="vm.DeleteProgram()" ng-disabled="vm.selectedProgramIndex === null"><span class="fa fa-trash"></span></button>
+      <button type="button" class="btn btn-sm btn-warning" ng-click="vm.EditProgram()" ng-disabled="vm.selectedProgramIndex === null"><span class="fa fa-pencil"></span></button>
+      <button type="button" class="btn btn-sm btn-primary" ng-click="vm.AddProgram()"><span class="fa fa-plus"></span></button>
     </widget-header>
     <widget-body classes="small no-padding">
       <table class="table table-hover table-clickable">
@@ -14,7 +16,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="program in vm.programs | filter:vm.programFilter" ng-class="{active: vm.selectedProgram == $index}" ng-click="vm.SelectProgram($index)">
+          <tr ng-repeat="program in vm.programs | filter:vm.programFilter" ng-class="{active: vm.selectedProgramIndex === $index}" ng-click="vm.SelectProgram($index)">
             <td>{{program.faculty}}</th>
             <td>{{program.type}}</th>
             <td>{{program.description}}</th>
@@ -25,13 +27,13 @@
   </widget>
 </div>
 
-<div class="row p-t-1" ng-show="vm.selectedProgram != null">
+<div class="row m-t-1" ng-show="vm.selectedProgramIndex != null">
   <widget class="col-lg-12">
-    <widget-header title="Chi tiết" icon="fa-info">
-
+    <widget-header title="Thông tin chi tiết" icon="fa-leanpub">
+      <button class="btn btn-sm btn-primary" ng-click="vm.EditBlock()">Chỉnh sửa</button>
     </widget-header>
     <widget-body>
-      <tree data="vm.courses"></tree>
+      <block-tree editable="false" data="vm.programs[vm.selectedProgramIndex].blocks"></block-tree>
     </widget-body>
   </widget>
 </div>

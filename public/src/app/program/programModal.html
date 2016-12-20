@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">Chương trình đào tạo</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <form class="form-horizontal">
+    <!-- Khoa đào tạo -->
+    <div class="form-group">
+      <label for="programType" class="col-lg-3">Khoa đào tạo</label>
+      <div class="col-lg-9">
+        <input type="text" id="programType" class="form-control" ng-model="vm.program.faculty" uib-typeahead="faculty for faculty in vm.GetAllFaculty($viewValue)" typeahead-min-length="0" typeahead-loading="loadingFaculty" typeahead-no-results="noFaculty" required>
+        <i ng-show="loadingFaculty" class="fa fa-spinner"></i>
+        <div ng-show="noFaculty">
+          <i class="fa fa-plus"></i> Thêm "{{vm.program.faculty}}"
+        </div>
+      </div>
+    </div> <!-- End "Khoa đào tạo" -->
+
+    <!-- Hệ đào tạo -->
+    <div class="form-group">
+      <label for="programFaculty" class="col-lg-3">Hệ đào tạo</label>
+      <div class="col-lg-9">
+        <input type="text" id="programFaculty" class="form-control" ng-model="vm.program.type" uib-typeahead="type for type in vm.GetAllType($viewValue)" typeahead-min-length="0" typeahead-loading="loadingType" typeahead-no-results="noType" required>
+        <i ng-show="loadingType" class="fa fa-spinner"></i>
+        <div ng-show="noType">
+          <i class="fa fa-plus"></i> Thêm "{{vm.program.type}}"
+        </div>
+      </div>
+    </div> <!-- End "Hệ đào tạo" -->
+
+    <!-- Mô tả --> 
+    <div class="form-group">
+      <label for="programDescription" class="col-lg-3">Mô tả</label>
+      <div class="col-lg-9">
+        <textarea id="programDescription" cols="30" rows="5" class="form-control" ng-model="vm.program.description"></textarea>
+      </div>
+    </div> <!-- End "Khoa đào tạo" -->
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" type="button" ng-click="vm.Cancel()">Huỷ</button>
+  <button class="btn btn-primary" type="button" ng-click="vm.Ok()">Đồng ý</button>
+</div>

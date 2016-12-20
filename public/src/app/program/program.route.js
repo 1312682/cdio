@@ -19,6 +19,15 @@
           controller: 'ProgramController',
           controllerAs: 'vm'
         }
+      },
+      {
+        state: 'subject',
+        config: {
+          url: '/subject',
+          templateUrl: 'app/program/subject.html',
+          controller: 'SubjectController',
+          controllerAs: 'vm'
+        }
       }
     ]
   }

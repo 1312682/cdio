@@ -17,16 +17,6 @@ blockSchema.virtual('level')
   return this.path.split(',').length;
 });
 
-// Program schema
-//-----------------------------------------------
-var programSchema = new Schema({
-  faculty: { type: String, required: true },
-  type: { type: String, required: true },
-  description: { type: String, required: false, default: '' },
-  outcome: { type: Schema.Types.ObjectId, ref: 'LearningOutcome' },
-  blocks: [blockSchema]
-});
-
 // Compile schema
 //-----------------------------------------------
-mongoose.model('Program', programSchema, 'Programs');
+mongoose.model('Block', blockSchema, 'Blocks');

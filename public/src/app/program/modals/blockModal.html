@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">Thêm nhóm kiến thức</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <form class="form-horizontal">
+    <!-- Tên nhóm kiến thức -->
+    <div class="form-group">
+      <label for="blockName" class="col-lg-3">Tên</label>
+      <div class="col-lg-9">
+        <input type="text" id="blockName" class="form-control" ng-model="vm.block.name" required>
+      </div>
+    </div> <!-- End "Tên nhóm kiến thức" -->
+
+    <!-- Chuyên ngành nhóm kiến thức -->
+    <div class="form-group">
+      <label for="blockMajor" class="col-lg-3">Chuyên ngành</label>
+      <div class="col-lg-9">
+        <input type="text" id="blockMajor" class="form-control" ng-model="vm.block.majors" uib-typeahead="major for major in vm.GetAllMajor($viewValue)" typeahead-min-length="0" typeahead-loading="loadingMajor" typeahead-no-results="noMajor" required>
+        <i ng-show="loadingMajor" class="fa fa-spinner"></i>
+        <div ng-show="noMajor">
+          <i class="fa fa-plus"></i> Thêm "{{vm.block.major}}"
+        </div>
+      </div>
+    </div> <!-- End "Chuyên ngành nhóm kiến thức" -->
+
+    <!-- -->
+    <div class="form-group">
+      <label for="blockMajor" class="col-lg-3">Danh sách môn</label>
+      <div class="col-lg-9">
+        <button type="button" class="btn btn-default m-b-1" ng-click="vm.EditCourse()">Chỉnh sửa</button>
+        <ui>
+          <li ng-repeat="course in vm.block.courses">{{course.name}}</li>
+        </ui>
+      </div>
+    </div> <!-- End "" -->
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" type="button" ng-click="vm.Cancel()">Huỷ</button>
+  <button class="btn btn-primary" type="button" ng-click="vm.Ok()">Thêm</button>
+</div>
