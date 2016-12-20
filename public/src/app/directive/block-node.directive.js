@@ -46,7 +46,6 @@
     ////////////////
 
     function activate() {
-      console.log(vm.isEditable)
     }
 
     function deleteBlock() {
