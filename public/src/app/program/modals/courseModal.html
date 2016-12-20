@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">Thêm môn</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <widget>
+    <widget-header title="Danh sách môn" icon="fa-learnpub">
+      <input class="form-control input-sm filter-bar" type="text" placeholder="Lọc" ng-model="vm.subjectFilter" autofocus>
+    </widget-header>
+    <widget-body>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Chỉ</th>
+            <th>Thực hành</th>
+            <th>Lý thuyết</th>
+            <th>Chọn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="subject in vm.subjects | filter:vm.subjectFilter">
+            <td>{{subject.code}}</td>
+            <td>{{subject.name}}</td>
+            <td>{{subject.credit}}</td>
+            <td>{{subject.hour.practice}}</td>
+            <td>{{subject.hour.theory}}</td>
+            <td>
+              <div class="checkbox">
+                <input type="checkbox" ng-model="subject.selected">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </widget-body>
+  </widget>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" type="button" ng-click="vm.Cancel()">Huỷ</button>
+  <button class="btn btn-primary" type="button" ng-click="vm.Ok()">Thêm</button>
+</div>

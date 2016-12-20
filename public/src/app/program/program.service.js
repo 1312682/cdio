@@ -8,6 +8,9 @@
   Program.$inject = ['$resource'];
   function Program($resource) {
     var ProgramResource = $resource('/api/programs/:programId', { programId: '@programId' }, {
+      update: {
+        method: "PUT"
+      },
       getAllFaculty: {
         method: "GET",
         url: "/api/programs/faculties",
@@ -25,6 +28,7 @@
       GetProgram: getProgram,
       CreateProgram: createProgram,
       UpdateProgram: updateProgram,
+      DeleteProgram: deleteProgram,
       GetAllFaculty: getAllFaculty,
       GetAllType: getAllType
     };
@@ -45,7 +49,12 @@
     }
 
     function updateProgram(program) {
-      return ProgramResource.put(program).$promise;
+      program.programId = program._id;
+      return ProgramResource.update(program).$promise;
+    }
+
+    function deleteProgram(id) {
+      return ProgramResource.remove({ programId: id }).$promise;
     }
 
     function getAllFaculty(name) {

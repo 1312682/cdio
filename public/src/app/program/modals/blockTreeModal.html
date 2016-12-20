@@ -1,0 +1,16 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">Chỉnh sửa chương trình đào tạo</h3>
+</div>
+<div class="modal-body row" id="modal-body">
+  <widget class="col-lg-12">
+    <widget-header title="Cấu trúc" icon="fa-leanpub">
+      <button class="btn btn-sm btn-primary" ng-click="vm.AddBlock()"><span class="fa fa-plus"></span></button>
+    </widget-header>
+    <widget-body>
+      <block-tree program-id="vm.programId" data="vm.blocks" tag-filter="vm.filter"></block-tree>
+    </widget-body>
+  </widget>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" type="button" ng-click="vm.Close()">Đóng</button>
+</div>

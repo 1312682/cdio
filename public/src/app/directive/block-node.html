@@ -1,0 +1,18 @@
+<div class="node">
+  {{vm.data.name}}
+  <span ng-repeat="major in vm.data.majors" class="label label-default">{{major}}</span>
+
+  <span class="node-auxilary">
+  <button class="btn btn-sm btn-danger" ng-click="vm.DeleteBlock()"><span class="fa fa-trash"></span></button>
+  <button class="btn btn-sm btn-warning" ng-click="vm.EditBlock()"><span class="fa fa-pencil"></span></button>
+  <button class="btn btn-sm btn-primary" ng-click="vm.AddBlock()"><span class="fa fa-plus"></span></button>
+  </span>
+</div>
+
+<ul>
+  <li ng-repeat="course in vm.data.courses">
+    {{course.name}}
+  </li>
+</ul>
+
+<block-nodes program-id="vm.programId" data="vm.data.children" tag-filter="vm.tagFilter"></block-nodes>

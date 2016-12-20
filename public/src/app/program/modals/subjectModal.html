@@ -1,0 +1,58 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">Thêm môn học</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <form class="form-horizontal">
+    <!-- Mã -->
+    <div class="form-group">
+      <label for="subjectName" class="col-lg-3">Mã</label>
+      <div class="col-lg-9">
+        <input type="text" id="subjectName" class="form-control" ng-model="vm.subject.code" required>
+      </div>
+    </div> <!-- End "Mã" -->
+
+    <!-- Tên -->
+    <div class="form-group">
+      <label for="subjectName" class="col-lg-3">Tên</label>
+      <div class="col-lg-9">
+        <input type="text" id="subjectName" class="form-control" ng-model="vm.subject.name" required>
+      </div>
+    </div> <!-- End "Tên" -->
+
+    <!-- Số tín chỉ -->
+    <div class="form-group">
+      <label for="subjectCredit" class="col-lg-3">Số tín chỉ</label>
+      <div class="col-lg-9">
+        <input type="text" id="subjectCredit" class="form-control" ng-model="vm.subject.credit" required>
+      </div>
+    </div> <!-- End "Số tín chỉ" -->
+
+    <!-- Giờ lý thuyết -->
+    <div class="form-group">
+      <label for="subjectTheoryHour" class="col-lg-3">Giờ lý thuyết</label>
+      <div class="col-lg-9">
+        <input type="text" id="subjectTheoryHour" class="form-control" ng-model="vm.subject.hour.theory" required>
+      </div>
+    </div> <!-- End "Giờ lý thuyết" -->
+
+    <!-- Giờ thực hành -->
+    <div class="form-group">
+      <label for="subjectPracticeHour" class="col-lg-3">Giờ thực hành</label>
+      <div class="col-lg-9">
+        <input type="text" id="subjectPracticeHour" class="form-control" ng-model="vm.subject.hour.practice" required>
+      </div>
+    </div> <!-- End "Giờ thực hành" -->
+    
+    <!-- Mô tả -->
+    <div class="form-group">
+      <label for="subjectDescription" class="col-lg-3">Mô tả</label>
+      <div class="col-lg-9">
+        <textarea rows="5" cols="30" id="subjectDescription" class="form-control" ng-model="vm.subject.description" required></textarea>
+      </div>
+    </div> <!-- End "Mô tả" -->
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" type="button" ng-click="vm.Cancel()">Huỷ</button>
+  <button class="btn btn-primary" type="button" ng-click="vm.Ok()">Thêm</button>
+</div>

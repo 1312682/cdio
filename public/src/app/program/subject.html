@@ -1,0 +1,32 @@
+<div class="row m-t-1">
+  <widget class="col-lg-12">
+    <widget-header title="Danh sách môn học" icon="fa-book">
+      <input class="form-control input-sm filter-bar" type="text" placeholder="Lọc" ng-model="vm.subjectFilter" autofocus>
+      <button class="btn btn-sm btn-danger" ng-click="vm.DeleteSubject()" ng-disabled="vm.selectedSubjectIndex === null">Xoá</button>
+      <button class="btn btn-sm btn-warning" ng-click="vm.EditSubject()" ng-disabled="vm.selectedSubjectIndex === null">Sửa</button>
+      <button class="btn btn-sm btn-primary" ng-click="vm.AddSubject()">Thêm</button>
+    </widget-header>
+    <widget-body>
+      <table class="table table-hover table-clickable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Chỉ</th>
+            <th>Thực hành</th>
+            <th>Lý thuyết</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-class="{active: vm.selectedSubjectIndex === $index}" ng-repeat="subject in vm.subjects | filter:vm.subjectFilter" ng-click="vm.SelectSubject($index)">
+            <td>{{subject.code}}</td>
+            <td>{{subject.name}}</td>
+            <td>{{subject.credit}}</td>
+            <td>{{subject.hour.practice}}</td>
+            <td>{{subject.hour.theory}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </widget-body>
+  </widget>
+</div>
