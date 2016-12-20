@@ -138,10 +138,10 @@ module.exports.addBlock = function (req, res, next) {
       program.blocks.push(newBlock);
 
       program.blocks.sort((a, b) => {
-        if (a._id < b._id) {
+        if (a.path < b.path) {
           return -1;
         }
-        if (a._id > b._id) {
+        if (a.path > b.path) {
           return 1;
         }
         return 0;
