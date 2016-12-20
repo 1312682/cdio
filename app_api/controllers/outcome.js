@@ -7,7 +7,7 @@ var Outcome = mongoose.model('Outcome');
 //-----------------------------------------------
 module.exports.createOutcome = function (req, res, next) {
 	Outcome.create({
-		name: req.body.name,
+		title: req.body.title,
 		majors: req.body.majors,
 		path: req.body.path
 	})
@@ -20,8 +20,9 @@ module.exports.createOutcome = function (req, res, next) {
 };
 
 module.exports.getTreeOutcome = function (req, res, next) {
-	Outcome.where('path')
-	.regex(/^req.params.outcomeId/i)
+	Outcome.find({
+		path: new RegExp(req.params.outcomeId)
+	})
 	.exec()
 	.then((tree) => {
 		if (!tree) {
@@ -45,7 +46,7 @@ module.exports.updateOutcome = function (req, res, next) {
 	Outcome.findOneAndUpdate({ 
 		_id: req.params.outcomeId 
 	}, {
-		name: req.body.name,
+		title: req.body.title,
 		majors: req.body.majors,
 		path: req.body.path
 	})

@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -19,11 +19,15 @@
     var ExcelArr = [];
 
     var service = {
-      toMaterializePath: toMaterializePath,
-      readExcelFile: readExcelFile,
-      convertToChar: convertToChar,
-      setParent: setParent,
-      excelToTree: excelToTree,
+      ToMaterializePath: toMaterializePath,
+      ReadExcelFile: readExcelFile,
+      ConvertToChar: convertToChar,
+      SetParent: setParent,
+      ExcelToTree: excelToTree,
+      NewNode: newNode,
+      UpdateNode: updateNode,
+      DeleteNode: deleteNode,
+      RemoveOutcome: removeOutcome
     };
 
     return service;
@@ -90,7 +94,7 @@
 
         if (cell[3] !== "0") {
           var node = {
-            id: cell[0] + cell[1] + cell[2],
+            code: cell[0] + cell[1] + cell[2],
             title: cell[3],
             nodes: [],
           }
@@ -111,17 +115,17 @@
 
     // Check parent of node
     function setParent(node, parent) {
-      if (node.id === "000") {
+      if (node.code === "000") {
         node.parent = parent.level3;
-      } else if (node.id % 10 > 0) {
+      } else if (node.code % 10 > 0) {
         node.parent = parent.level2;
-        parent.level3 = node.id;
-      } else if (node.id % 100 > 0) {
+        parent.level3 = node.code;
+      } else if (node.code % 100 > 0) {
         node.parent = parent.level1;
-        parent.level2 = node.id;
+        parent.level2 = node.code;
       } else {
         node.parent = parent.root;
-        parent.level1 = node.id;
+        parent.level1 = node.code;
       }
 
       ExcelArr.push(node);
@@ -132,13 +136,63 @@
       var map = {};
       for (var i = 0; i < data.length; i++) {
         var node = data[i];
-        map[node.id] = i; // use map to look-up the parents
+        map[node.code] = i; // use map to look-up the parents
         if (node.parent !== "#") {
           data[map[node.parent]].nodes.push(node);
         } else {
           OutcomeTree.push(node);
         }
       }
+    }
+
+    function newNode(outcome) {
+      return $http.post("/api/outcomes", outcome).then(function (res) {
+        return res.data;
+      });
+    }
+
+    function updateNode(outcome, id) {
+      return $http.put("/api/outcomes/" + id, outcome).then(function (res) {
+        return res.data;
+      });
+    }
+
+    function deleteNode(id) {
+      return $http.delete("api/outcomes/" + id).then(function (res) {
+        console.log(res);
+        return true;
+      });
+    }
+
+    function removeOutcome(outcome) {
+      if (outcome.nodes.length > 0) {
+        for (var detail in outcome.nodes) {
+          var index = outcome.nodes.indexOf(outcome.nodes[detail]);
+          var wait = removeOutcome(outcome.nodes[detail]);
+          
+          wait.then(function (res) {
+            if (res) {
+              outcome.nodes.splice(index, 1);
+              if (outcome.nodes.length === 0) {
+                var promise = deleteNode(outcome);
+                promise.then(function (res) {
+                  return res;
+                });
+              }
+            }
+            else {
+              return false;
+            }
+          });
+        }
+      }
+      else {
+        var promise = deleteNode(outcome);
+        promise.then(function (res) {
+          return res;
+        });
+      }
+
     }
   }
 })();

@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -30,7 +30,7 @@
     ////////////////
 
     function activate() {
-      vm.programs = ["CNTT - Hệ Chính Quy", "CNTT - Hệ Cao Đẳng", "CNTT - Hoàn Chỉnh"];
+      vm.programs = ["CNTT - Chính Quy", "CNTT - Cao Đẳng", "CNTT - Hoàn Chỉnh"];
 
       //vm.nodes = Outcome.toMaterializePath(vm.tree, vm.nodes, "");
     }
@@ -41,7 +41,19 @@
     }
 
     function remove(node) {
-      node.remove();
+      console.log(node);
+      var outcome = node.$nodeScope.$modelValue;
+      var promise = Outcome.RemoveOutcome(outcome);
+
+      promise.then(function (res) {
+        if (res) {
+          node.remove();
+          toaster.pop('success', "Success", "Remove outcome successfully!!!");
+        }
+        else {
+          toaster.pop('error', 'Failed', "Can't remove node. Please try again!!!");
+        }
+      });
     }
 
     function addSubNode(tree) {
@@ -50,11 +62,11 @@
         controllerAs: 'vm',
         templateUrl: 'app/learningOutcome/addOutcome.html',
         size: 'lg'
-      }).result.then(function(outcome) {
+      }).result.then(function (outcome) {
         var node = tree.$nodeScope.$modelValue;
         node.nodes.push({
           id: outcome._id,
-          title: outcome.name,
+          title: outcome.title,
           majors: outcome.majors,
           nodes: []
         });
@@ -69,9 +81,8 @@
     }
 
     $scope.read = function read(workbook) {
-      vm.tree = Outcome.readExcelFile(workbook);
+      vm.tree = Outcome.ReadExcelFile(workbook);
       $scope.$evalAsync();
-      console.log(vm.tree);
     };
 
     $scope.error = function error(e) {
