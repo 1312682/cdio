@@ -8,15 +8,21 @@
   Outcome.$inject = ['$resource', '$http'];
 
   function Outcome($resource, $http) {
-    var OutcomeResource = $resource('/api/outcome/:outcomeId', { outcomeId: '@outcomeId' }, {
-      GetTreeView: {
-        method: 'GET',
-        isArray: true
+    var OutcomeResource = $resource('/api/outcomes/:outcomeId', { outcomeId: '@outcomeId' }, {
+      update: {
+        method: "PUT"
+      }
+    });
+    var ProgramResource = $resource('/api/programs/:programId', { programId: '@programId' }, {
+      update: {
+        method: "PUT"
       }
     });
 
     var OutcomeTree = [];
+    var OutcomeMaterialize = [];
     var ExcelArr = [];
+    var result = {};
 
     var service = {
       ToMaterializePath: toMaterializePath,
@@ -27,38 +33,51 @@
       NewNode: newNode,
       UpdateNode: updateNode,
       DeleteNode: deleteNode,
-      RemoveOutcome: removeOutcome
+      GetAllPrograms: getAllPrograms,
+      UpdatePrograms: updatePrograms
     };
 
     return service;
 
     ////////////////
 
-    function toMaterializePath(tree, data, parentPath) {
+    function toMaterializePath(tree, data, parentPath, rootPath) {
       var root = false;
       var newPath = "";
       for (var key in tree) {
         if (typeof tree[key] == "object" && tree[key] !== null) {
+          var outcome = {
+            title: tree[key].title,
+            majors: []
+          }
+
+          newNode(outcome)
+          .then(function (res) {
+            result = res;
+          });
 
           if (parentPath === "") {
-            newPath = "," + tree[key].id + ",";
+            newPath = "," + rootPath + "," + result._id + ",";
             root = true;
           } else {
             newPath = parentPath;
           }
 
           var node = {
-            id: tree[key].id,
+            id: result._id,
             title: tree[key].title,
+            majors: result.majors,
             path: newPath
           }
 
           if (root === false) {
-            newPath += tree[key].id + ",";
+            newPath += result._id + ",";
           }
 
           data.push(node);
-          toMaterializePath(tree[key].nodes, data, newPath);
+          if (tree[key].nodes.length > 0) {
+            toMaterializePath(tree[key].nodes, data, newPath, rootPath);            
+          }
         }
       }
       return data;
@@ -98,6 +117,7 @@
             title: cell[3],
             nodes: [],
           }
+
           parent = setParent(node, parent);
         }
       }
@@ -137,62 +157,68 @@
       for (var i = 0; i < data.length; i++) {
         var node = data[i];
         map[node.code] = i; // use map to look-up the parents
+
         if (node.parent !== "#") {
           data[map[node.parent]].nodes.push(node);
         } else {
           OutcomeTree.push(node);
         }
       }
+
     }
 
+    // Outcome API
     function newNode(outcome) {
-      return $http.post("/api/outcomes", outcome).then(function (res) {
-        return res.data;
-      });
+      return OutcomeResource.save(outcome).$promise;
     }
 
-    function updateNode(outcome, id) {
-      return $http.put("/api/outcomes/" + id, outcome).then(function (res) {
-        return res.data;
-      });
+    function updateNode(outcome) {
+      outcome.outcomeId = outcome._id;
+      return OutcomeResource.update(outcome).$promise;
     }
 
     function deleteNode(id) {
-      return $http.delete("api/outcomes/" + id).then(function (res) {
-        console.log(res);
-        return true;
-      });
+      return OutcomeResource.remove({ outcomeId: id }).$promise;
     }
 
-    function removeOutcome(outcome) {
-      if (outcome.nodes.length > 0) {
-        for (var detail in outcome.nodes) {
-          var index = outcome.nodes.indexOf(outcome.nodes[detail]);
-          var wait = removeOutcome(outcome.nodes[detail]);
-          
-          wait.then(function (res) {
-            if (res) {
-              outcome.nodes.splice(index, 1);
-              if (outcome.nodes.length === 0) {
-                var promise = deleteNode(outcome);
-                promise.then(function (res) {
-                  return res;
-                });
-              }
-            }
-            else {
-              return false;
-            }
-          });
-        }
-      }
-      else {
-        var promise = deleteNode(outcome);
-        promise.then(function (res) {
-          return res;
-        });
-      }
+    // function removeOutcome(outcome) {
+    //   if (outcome.nodes.length > 0) {
+    //     for (var detail in outcome.nodes) {
+    //       var index = outcome.nodes.indexOf(outcome.nodes[detail]);
+    //       var wait = removeOutcome(outcome.nodes[detail]);
 
+    //       wait.then(function (res) {
+    //         if (res) {
+    //           outcome.nodes.splice(index, 1);
+    //           if (outcome.nodes.length === 0) {
+    //             var promise = deleteNode(outcome);
+    //             promise.then(function (res) {
+    //               return res;
+    //             });
+    //           }
+    //         }
+    //         else {
+    //           return false;
+    //         }
+    //       });
+    //     }
+    //   }
+    //   else {
+    //     var promise = deleteNode(outcome);
+    //     promise.then(function (res) {
+    //       return res;
+    //     });
+    //   }
+    // }
+
+    // Program API 
+    function getAllPrograms() {
+      return ProgramResource.query().$promise;
+    }
+
+    function updatePrograms(program) {
+      program.programId = program._id;
+      return ProgramResource.update(program).$promise;
     }
   }
 })();

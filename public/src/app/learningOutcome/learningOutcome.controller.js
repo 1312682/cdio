@@ -13,8 +13,10 @@
 
     // Variables
     vm.program = "";
+    vm.programs = [];
+    vm.programIndex = [];
+
     vm.newNode = "";
-    vm.currentNode = "";
     vm.nodes = [];
     vm.tree = [];
     vm.dragEnabled = false;
@@ -22,17 +24,25 @@
     // Methods
     vm.Toggle = toggle;
     vm.Remove = remove;
+    vm.AddNode = addNode;
     vm.AddSubNode = addSubNode;
     vm.ChooseFile = chooseFile;
+    vm.Save = save;
 
     activate();
 
     ////////////////
 
     function activate() {
-      vm.programs = ["CNTT - Chính Quy", "CNTT - Cao Đẳng", "CNTT - Hoàn Chỉnh"];
-
-      //vm.nodes = Outcome.toMaterializePath(vm.tree, vm.nodes, "");
+      Outcome.GetAllPrograms()
+        .then(function (programs) {
+          for (var i = 0; i < programs.length; i++) {
+            vm.programs.push(programs[i]);
+          }
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
     }
 
     // Tree events
@@ -43,16 +53,34 @@
     function remove(node) {
       console.log(node);
       var outcome = node.$nodeScope.$modelValue;
-      var promise = Outcome.RemoveOutcome(outcome);
+      Outcome
+        .DeleteNode(outcome.id)
+        .then(function (res) {
+          if (res) {
+            node.remove();
+            toaster.pop('success', "Success", "Remove outcome successfully!!!");
+          }
+          else {
+            toaster.pop('error', 'Failed', "Can't remove node. Please try again!!!");
+          }
+        });
+    }
 
-      promise.then(function (res) {
-        if (res) {
-          node.remove();
-          toaster.pop('success', "Success", "Remove outcome successfully!!!");
-        }
-        else {
-          toaster.pop('error', 'Failed', "Can't remove node. Please try again!!!");
-        }
+    function addNode() {
+      $uibModal.open({
+        controller: 'AddOutcomeController',
+        controllerAs: 'vm',
+        templateUrl: 'app/learningOutcome/addOutcome.html',
+        size: 'lg'
+      }).result.then(function (outcome) {
+        vm.tree.push({
+          id: outcome._id,
+          title: outcome.title,
+          majors: outcome.majors,
+          path: outcome.path,
+          nodes: []
+        });
+        toaster.pop('success', "Success", "Add new learning outcome!!!");
       });
     }
 
@@ -68,6 +96,7 @@
           id: outcome._id,
           title: outcome.title,
           majors: outcome.majors,
+          path: outcome.path,
           nodes: []
         });
         toaster.pop('success', "Success", "Add new learning outcome!!!");
@@ -89,5 +118,9 @@
       console.log(e);
     };
     // End read excel file
+
+    function save() {
+      vm.nodes = Outcome.ToMaterializePath(vm.tree, vm.nodes, "", vm.program._id);
+    }
   }
 })();

@@ -32,14 +32,16 @@
     }
 
     function apply() {
-      var promise = {};
-
       addMajors();
 
-      promise = Outcome.NewNode(vm.outcome);
-      promise.then(function (res) {
-        $uibModalInstance.close(res);
-      });
+      Outcome
+        .NewNode(vm.outcome)
+        .then(function (res) {
+          $uibModalInstance.close(res);
+        })
+        .catch(function (err) {
+          $uibModalInstance.close(err);
+        });
     }
 
     function addMajors() {
