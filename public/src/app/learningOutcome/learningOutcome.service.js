@@ -5,9 +5,9 @@
     .module('app.outcome')
     .factory('Outcome', Outcome);
 
-  Outcome.$inject = ['$resource', '$http'];
+  Outcome.$inject = ['$resource', '$timeout'];
 
-  function Outcome($resource, $http) {
+  function Outcome($resource, $timeout) {
     var OutcomeResource = $resource('/api/outcomes/:outcomeId', { outcomeId: '@outcomeId' }, {
       update: {
         method: "PUT"
@@ -22,7 +22,7 @@
     var OutcomeTree = [];
     var OutcomeMaterialize = [];
     var ExcelArr = [];
-    var result = {};
+    var OutcomeArr = [];
 
     var service = {
       ToMaterializePath: toMaterializePath,
@@ -41,46 +41,55 @@
 
     ////////////////
 
-    function toMaterializePath(tree, data, parentPath, rootPath) {
-      var root = false;
-      var newPath = "";
+    var root = false;
+    var newPath = "";
+    var parentId = "";
+    var treeData = {};
+    var rootId = "";
+    function toMaterializePath(tree, parentPath, rootPath) {
+      root = false;
+      newPath = "";
+      parentId = parentPath;
+      rootId = rootPath;
+
       for (var key in tree) {
         if (typeof tree[key] == "object" && tree[key] !== null) {
+          treeData = tree[key];
           var outcome = {
             title: tree[key].title,
             majors: []
           }
 
           newNode(outcome)
-          .then(function (res) {
-            result = res;
-          });
+            .then(function (res) {
 
-          if (parentPath === "") {
-            newPath = "," + rootPath + "," + result._id + ",";
-            root = true;
-          } else {
-            newPath = parentPath;
-          }
+              if (parentId === "") {
+                newPath = "," + rootId + "," + res._id + ",";
+                root = true;
+              } else {
+                newPath = parentId;
+              }
 
-          var node = {
-            id: result._id,
-            title: tree[key].title,
-            majors: result.majors,
-            path: newPath
-          }
+              var node = {
+                id: res._id,
+                title: res.title,
+                majors: res.majors,
+                path: newPath
+              }
 
-          if (root === false) {
-            newPath += result._id + ",";
-          }
+              if (root === false) {
+                newPath += res._id + ",";
+              }
 
-          data.push(node);
-          if (tree[key].nodes.length > 0) {
-            toMaterializePath(tree[key].nodes, data, newPath, rootPath);            
-          }
+              OutcomeArr.push(node);
+            });
+
+          $timeout(function () {
+            toMaterializePath(tree[key].nodes, newPath, rootId);
+          }, 300);
         }
       }
-      return data;
+      return OutcomeArr;
     }
 
     function readExcelFile(workbook) {
