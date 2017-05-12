@@ -106,17 +106,18 @@
                 }
             }).result.then(function(outcome) {
                 var node = tree.$nodeScope.$modelValue;
-                if (node.path) {
-                    outcome.path = node.path + outcome._id + ",";
-                    vm.UpdateNode(outcome);
-                }
+
+                // if (node.path) {
+                //     outcome.path = node.path + outcome._id + ",";
+                //     vm.UpdateNode(outcome);
+                // }
 
                 node.nodes.push({
                     id: outcome._id,
                     title: outcome.title,
                     majors: outcome.majors,
                     code: outcome.code,
-                    path: outcome.path,
+                    path: null,
                     nodes: []
                 });
 
