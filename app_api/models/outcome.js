@@ -3,11 +3,16 @@ var Schema = mongoose.Schema;
 
 // LO schema
 //-----------------------------------------------
-var learningSchema = new Schema({
+var detailSchema = new Schema({
     title: { type: String, required: true },
-    majors: { type: [String], required: false },
+    majors: { type: [String], required: false, default: null },
     path: { type: String, default: null },
     parent: { type: String, default: null }
+})
+
+var learningSchema = new Schema({
+    current: { detailSchema },
+    prev: { type: [detailSchema], default: null }
 });
 
 // Compile schema
