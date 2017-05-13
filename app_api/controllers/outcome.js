@@ -7,13 +7,19 @@ var Outcome = mongoose.model('Outcome');
 //-----------------------------------------------
 module.exports.createOutcome = function(req, res, next) {
     Outcome.create({
-            title: req.body.title,
-            majors: req.body.majors,
-            path: req.body.path,
-            parent: req.body.parent
+            current: {},
+            prev: []
         })
-        .then((learning) => {
-            return res.status(200).json(learning);
+        .then((outcome) => {
+            var newOutcome = outcome.current.create({
+                title: req.body.title,
+                majors: req.body.majors,
+                path: req.body.path,
+                parent: req.body.parent,
+                ver: 1
+            });
+
+            return res.status(200).json(outcome);
         })
         .catch((err) => {
             return res.status(500).json(err);
@@ -22,7 +28,9 @@ module.exports.createOutcome = function(req, res, next) {
 
 module.exports.getTreeOutcome = function(req, res, next) {
     Outcome.find({
-            path: new RegExp(req.params.outcomeId)
+            current: {
+                path: new RegExp(req.params.outcomeId)
+            }
         })
         .exec()
         .then((tree) => {
@@ -43,22 +51,51 @@ module.exports.getTreeOutcome = function(req, res, next) {
 }
 
 module.exports.updateOutcome = function(req, res, next) {
-    Outcome.findOneAndUpdate({
+    var version = req.query.version;
+    Outcome.findById({
             _id: req.params.outcomeId
-        }, {
-            title: req.body.title,
-            majors: req.body.majors,
-            path: req.body.path,
-            parent: req.body.parent
         })
         .exec()
-        .then((learning) => {
-            if (!learning) {
+        .then((outcome) => {
+            if (!outcome) {
                 return res.status(404).json({
                     message: "Learning outcome not found!!!"
                 });
             } else {
-                return res.status(200).json(learning);
+                if (req.query.version < outcome.current.ver) {
+                    for (var i = 0; i < outcome.prev.length; i++) {
+                        if (outcome.prev[i].ver == req.query.version) {
+                            outcome.prev[i] = {
+                                title: req.body.title,
+                                majors: req.body.majors,
+                                path: req.body.path,
+                                parent: req.body.parent
+                            }
+                        }
+                    }
+                } else if (req.query.version == outcome.current.ver) {
+                    outcome.current = {
+                        title: req.body.title,
+                        majors: req.body.majors,
+                        path: req.body.path,
+                        parent: req.body.parent
+                    }
+                } else {
+                    return res.status(500).json({
+                        message: "version not exist"
+                    });
+                }
+
+                outcome.save()
+                    .then(() => {
+                        return res.status(200).json(outcome);
+                    })
+                    .catch((err) => {
+                        return res.status(500).json({
+                            message: "cannot update outcome",
+                            detail: err
+                        });
+                    });
             }
         })
         .catch((err) => {
@@ -69,19 +106,57 @@ module.exports.updateOutcome = function(req, res, next) {
         });
 }
 
-module.exports.deleteOutcome = function(req, res, next) {
-    Outcome.find({
-            path: new RegExp(req.params.outcomeId)
+module.exports.updateVersionOutcome = function(req, res, next) {
+    Outcome.findById({
+            _id: req.params.outcomeId
         })
         .exec()
-        .then((learning) => {
-            if (!learning) {
+        .then((outcome) => {
+            if (!outcome) {
                 return res.status(404).json({
                     message: "Learning outcome not found!!!"
                 });
             } else {
-                for (var i = 0; i < learning.length; i++) {
-                    Outcome.remove(learning[i]);
+                outcome.prev.push(outcome.current);
+                outcome.current.ver += 1;
+
+                outcome.save()
+                    .then(() => {
+                        return res.status(200).json({
+                            message: "update new version successfully"
+                        });
+                    })
+                    .catch((err) => {
+                        return res.status(500).json({
+                            message: "cannot update new version",
+                            detail: err
+                        });
+                    });
+            }
+        })
+        .catch((err) => {
+            return res.status(500).json({
+                message: "outcome does not exist",
+                detail: err
+            });
+        });
+}
+
+module.exports.deleteOutcome = function(req, res, next) {
+    Outcome.find({
+            current: {
+                path: new RegExp(req.params.outcomeId)
+            }
+        })
+        .exec()
+        .then((outcome) => {
+            if (!outcome) {
+                return res.status(404).json({
+                    message: "Learning outcome not found!!!"
+                });
+            } else {
+                for (var i = 0; i < outcome.length; i++) {
+                    Outcome.remove(outcome[i]);
                 }
 
                 return res.status(200).json({
@@ -95,27 +170,4 @@ module.exports.deleteOutcome = function(req, res, next) {
                 detail: err
             });
         });
-
-    // Outcome.remove({
-    // 	path: new RegExp(req.params.outcomeId)
-    // })
-    // 	.exec()
-    // 	.then((learning) => {
-    // 		if (!learning) {
-    // 			return res.status(404).json({
-    // 				message: "Learning outcome not found!!!"
-    // 			});
-    // 		}
-    // 		else {
-    // 			return res.status(200).json({
-    // 				message: "Remove successfully"
-    // 			})
-    // 		}
-    // 	})
-    // 	.catch((err) => {
-    // 		return res.status(500).json({
-    // 			message: "Cannot delete learning outcome",
-    // 			detail: err
-    // 		});
-    // 	});
 }
