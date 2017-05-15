@@ -12,7 +12,7 @@ var detailSchema = new Schema({
 })
 
 var learningSchema = new Schema({
-    current: { detailSchema },
+    current: { type: detailSchema },
     prev: { type: [detailSchema], default: null }
 });
 

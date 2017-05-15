@@ -63,7 +63,7 @@
 
             for (var i = 0; i < OutcomeData.length; i++) {
                 var currentPromise = OutcomeResource
-                    .update({ outcomeId: OutcomeData[i]._id }, OutcomeData[i]).$promise
+                    .update({ outcomeId: OutcomeData[i]._id, version: OutcomeData[i].ver }, OutcomeData[i]).$promise
                     .then(function(res) {
                         return true;
                     });
@@ -178,9 +178,10 @@
                 var currentPromise = OutcomeResource.save(item).$promise.then(function(res) {
                     var node = {
                         _id: res._id,
-                        title: res.title,
-                        path: res.path,
-                        majors: res.majors
+                        title: res.outcome.title,
+                        path: res.outcome.path,
+                        majors: res.outcome.majors,
+                        ver: res.outcome.ver
                     }
 
                     nodeArr.push(node);

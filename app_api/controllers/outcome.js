@@ -7,36 +7,40 @@ var Outcome = mongoose.model('Outcome');
 //-----------------------------------------------
 module.exports.createOutcome = function(req, res, next) {
     Outcome.create({
-            current: {},
-            prev: []
-        })
-        .then((outcome) => {
-            var newOutcome = outcome.current.create({
+            current: {
                 title: req.body.title,
                 majors: req.body.majors,
                 path: req.body.path,
                 parent: req.body.parent,
                 ver: 1
+            },
+            prev: []
+        })
+        .then((outcome) => {
+            return res.status(200).json({
+                outcome: outcome.current,
+                _id: outcome._id
             });
-
-            return res.status(200).json(outcome);
         })
         .catch((err) => {
-            return res.status(500).json(err);
+            return res.status(500).json({
+                message: "cannot create new outcome",
+                detail: err
+            });
         });
 };
 
 module.exports.getTreeOutcome = function(req, res, next) {
+    var currentVersion = req.query.version;
     Outcome.find({
-            current: {
-                path: new RegExp(req.params.outcomeId)
-            }
+            path: new RegExp(req.params.outcomeId)
         })
+        .select('current path')
         .exec()
         .then((tree) => {
             if (!tree) {
                 return res.status(404).json({
-                    message: "Parent node not found!!!"
+                    message: "parent node not found!!!"
                 });
             } else {
                 return res.status(200).json(tree);
@@ -44,7 +48,7 @@ module.exports.getTreeOutcome = function(req, res, next) {
         })
         .catch((err) => {
             return res.status(500).json({
-                message: "Cannot get treeview",
+                message: "cannot get treeview",
                 detail: err
             });
         });
@@ -59,7 +63,7 @@ module.exports.updateOutcome = function(req, res, next) {
         .then((outcome) => {
             if (!outcome) {
                 return res.status(404).json({
-                    message: "Learning outcome not found!!!"
+                    message: "learning outcome not found!!!"
                 });
             } else {
                 if (req.query.version < outcome.current.ver) {
@@ -69,7 +73,8 @@ module.exports.updateOutcome = function(req, res, next) {
                                 title: req.body.title,
                                 majors: req.body.majors,
                                 path: req.body.path,
-                                parent: req.body.parent
+                                parent: req.body.parent,
+                                ver: req.query.version
                             }
                         }
                     }
@@ -78,7 +83,8 @@ module.exports.updateOutcome = function(req, res, next) {
                         title: req.body.title,
                         majors: req.body.majors,
                         path: req.body.path,
-                        parent: req.body.parent
+                        parent: req.body.parent,
+                        ver: req.query.version
                     }
                 } else {
                     return res.status(500).json({
@@ -100,7 +106,7 @@ module.exports.updateOutcome = function(req, res, next) {
         })
         .catch((err) => {
             return res.status(500).json({
-                message: "Cannot update learning outcome",
+                message: "cannot update learning outcome",
                 detail: err
             });
         });
@@ -114,11 +120,18 @@ module.exports.updateVersionOutcome = function(req, res, next) {
         .then((outcome) => {
             if (!outcome) {
                 return res.status(404).json({
-                    message: "Learning outcome not found!!!"
+                    message: "learning outcome not found!!!"
                 });
             } else {
+                var currVersion = outcome.current.ver;
                 outcome.prev.push(outcome.current);
-                outcome.current.ver += 1;
+                outcome.current = {
+                    title: req.body.title,
+                    majors: req.body.majors,
+                    path: req.body.path,
+                    parent: req.body.parent,
+                    ver: currVersion + 1
+                }
 
                 outcome.save()
                     .then(() => {
@@ -152,7 +165,7 @@ module.exports.deleteOutcome = function(req, res, next) {
         .then((outcome) => {
             if (!outcome) {
                 return res.status(404).json({
-                    message: "Learning outcome not found!!!"
+                    message: "learning outcome not found!!!"
                 });
             } else {
                 for (var i = 0; i < outcome.length; i++) {
@@ -160,13 +173,13 @@ module.exports.deleteOutcome = function(req, res, next) {
                 }
 
                 return res.status(200).json({
-                    message: "Remove successfully"
+                    message: "remove successfully"
                 })
             }
         })
         .catch((err) => {
             return res.status(500).json({
-                message: "Cannot delete learning outcome",
+                message: "cannot delete learning outcome",
                 detail: err
             });
         });

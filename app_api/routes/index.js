@@ -40,12 +40,12 @@ router.route('/subjects/:subjectId')
 router.route('/outcomes')
     .post(routeOutcome.createOutcome);
 
-router.route('/outcomes/:outcomeId?version')
+router.route('/outcomes/:outcomeId')
     .get(routeOutcome.getTreeOutcome)
     .put(routeOutcome.updateOutcome)
     .delete(routeOutcome.deleteOutcome);
 
-router.route("/outcomes/version/:outcomeId?version")
+router.route("/outcomes/:outcomeId/version")
     .put(routeOutcome.updateVersionOutcome);
 
 // 404 handler
