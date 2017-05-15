@@ -27,8 +27,7 @@
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: confirmText,
                     cancelButtonText: 'Hủy',
-                    showLoaderOnConfirm: true,
-                    closeOnConfirm: false,
+                    closeOnConfirm: true,
                 },
                 function(isConfirm) {
                     callback(isConfirm);

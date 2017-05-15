@@ -11,6 +11,10 @@
         var OutcomeResource = $resource('/api/outcomes/:outcomeId', { outcomeId: '@outcomeId' }, {
             update: {
                 method: "PUT"
+            },
+            getLastestVersion: {
+                method: "GET",
+                url: "/api/outcomes/version"
             }
         });
         var ProgramResource = $resource('/api/programs/:programId', { programId: '@programId' }, {
@@ -37,7 +41,8 @@
             UpdateNode: updateNode,
             DeleteNode: deleteNode,
             GetAllPrograms: getAllPrograms,
-            GetOutcomeTree: getOutcomeTree
+            GetOutcomeTree: getOutcomeTree,
+            GetLastestVersion: getLastestVersion
         };
 
         return service;
@@ -217,6 +222,10 @@
 
         function getOutcomeTree(id) {
             return OutcomeResource.query({ outcomeId: id }).$promise;
+        }
+
+        function getLastestVersion() {
+            return OutcomeResource.getLastestVersion().$promise;
         }
 
         // Program API 

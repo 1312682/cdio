@@ -15,6 +15,17 @@
                         </ui-select>
                     </div>
                 </div>
+                <div class="form-group" ng-if="vm.versions.length > 0">
+                    <label class="col-sm-3 control-label">Phiên bản</label>
+                    <div class="col-sm-4">
+                        <ui-select ng-model="vm.version" theme="bootstrap" ng-change="vm.GetTreeView()">
+                            <ui-select-match placeholder="Chọn phiên bản...">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item in vm.versions | filter: $select.search">
+                                {{item}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="fileLO">Tập tin <span class="text-red">*</span></label>
                     <div class="col-sm-4">

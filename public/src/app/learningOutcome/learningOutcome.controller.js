@@ -5,9 +5,9 @@
         .module('app.outcome')
         .controller('OutcomeController', OutcomeController);
 
-    OutcomeController.$inject = ['$scope', '$timeout', 'toaster', '$uibModal', 'Outcome'];
+    OutcomeController.$inject = ['$scope', '$timeout', 'toaster', '$uibModal', 'Outcome', 'Dialog'];
 
-    function OutcomeController($scope, $timeout, toaster, $uibModal, Outcome) {
+    function OutcomeController($scope, $timeout, toaster, $uibModal, Outcome, Dialog) {
         var vm = this;
         window.sc = vm;
 
@@ -15,6 +15,8 @@
         vm.program = null;
         vm.programs = [];
         vm.programIndex = [];
+        vm.version = null;
+        vm.versions = [];
 
         vm.newNode = "";
         vm.nodes = [];
@@ -44,6 +46,15 @@
             }).catch(function(err) {
                 console.log(err);
             });
+
+            Outcome.GetLastestVersion().then(function(res) {
+                for (var i = 1; i < res.currVer; i++) {
+                    vm.versions.push(i);
+                }
+                vm.version = vm.versions[vm.versions.length - 1];
+            }).catch(function(err) {
+                console.log(err);
+            });
         }
 
         // Tree events
@@ -54,12 +65,18 @@
         function remove(node) {
             var outcome = node.$nodeScope.$modelValue;
 
-            Outcome.DeleteNode(outcome._id).then(function(res) {
-                if (res) {
-                    node.remove();
-                    toaster.pop('success', "Success", "Remove outcome successfully!!!");
+            Dialog.Confirm('Xóa chuẩn đầu ra', 'Bạn có chắc chắn', 'Xóa', function(isConfirm) {
+                if (isConfirm) {
+                    Outcome.DeleteNode(outcome._id).then(function(res) {
+                        if (res) {
+                            node.remove();
+                            toaster.pop('success', "Success", "Remove outcome successfully!!!");
+                        } else {
+                            toaster.pop('error', 'Failed', "Can't remove node. Please try again!!!");
+                        }
+                    });
                 } else {
-                    toaster.pop('error', 'Failed', "Can't remove node. Please try again!!!");
+                    return false;
                 }
             });
         }
