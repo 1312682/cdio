@@ -131,9 +131,9 @@
 
                 node.nodes.push({
                     id: outcome._id,
-                    title: outcome.title,
-                    majors: outcome.majors,
-                    code: outcome.code,
+                    title: outcome.current.title,
+                    majors: outcome.current.majors,
+                    code: outcome.current.code,
                     path: null,
                     nodes: []
                 });

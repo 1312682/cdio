@@ -8,7 +8,7 @@ var detailSchema = new Schema({
     majors: { type: [String], required: false, default: null },
     path: { type: String, default: null },
     parent: { type: String, default: null },
-    ver: Number
+    ver: { type: String, default: null }
 })
 
 var learningSchema = new Schema({

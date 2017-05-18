@@ -33,9 +33,8 @@ module.exports.createOutcome = function(req, res, next) {
 module.exports.getTreeOutcome = function(req, res, next) {
     var currentVersion = req.query.version;
     Outcome.find({
-            path: new RegExp(req.params.outcomeId)
+            'current.path': new RegExp(req.params.outcomeId)
         })
-        .select('current path')
         .exec()
         .then((tree) => {
             if (!tree) {
@@ -66,9 +65,9 @@ module.exports.updateOutcome = function(req, res, next) {
                     message: "learning outcome not found!!!"
                 });
             } else {
-                if (req.query.version < outcome.current.ver) {
+                if (version !== outcome.current.ver) {
                     for (var i = 0; i < outcome.prev.length; i++) {
-                        if (outcome.prev[i].ver == req.query.version) {
+                        if (outcome.prev[i].ver === version) {
                             outcome.prev[i] = {
                                 title: req.body.title,
                                 majors: req.body.majors,
@@ -130,7 +129,7 @@ module.exports.updateVersionOutcome = function(req, res, next) {
                     majors: req.body.majors,
                     path: req.body.path,
                     parent: req.body.parent,
-                    ver: currVersion + 1
+                    ver: req.body.version
                 }
 
                 outcome.save()
