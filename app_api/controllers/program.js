@@ -5,7 +5,7 @@ var Program = mongoose.model('Program');
 
 // Exported methods
 //-----------------------------------------------
-module.exports.createProgram = function (req, res, next) {
+module.exports.createProgram = function(req, res, next) {
   Program
     .create({
       name: req.body.name,
@@ -21,7 +21,7 @@ module.exports.createProgram = function (req, res, next) {
     })
 };
 
-module.exports.getAllProgram = function (req, res, next) {
+module.exports.getAllProgram = function(req, res, next) {
   Program.find()
     .select('-blocks')
     .exec()
@@ -36,7 +36,7 @@ module.exports.getAllProgram = function (req, res, next) {
     });
 };
 
-module.exports.getProgram = function (req, res, next) {
+module.exports.getProgram = function(req, res, next) {
   Program.findById(req.params.programId)
     .exec()
     .then((program) => {
@@ -56,7 +56,7 @@ module.exports.getProgram = function (req, res, next) {
     });
 };
 
-module.exports.updateProgram = function (req, res, next) {
+module.exports.updateProgram = function(req, res, next) {
   Program
     .findOneAndUpdate({
       _id: req.params.programId
@@ -87,7 +87,7 @@ module.exports.updateProgram = function (req, res, next) {
     });
 };
 
-module.exports.deleteProgram = function (req, res, next) {
+module.exports.deleteProgram = function(req, res, next) {
   Program
     .findOneAndRemove({
       _id: req.params.programId
@@ -112,7 +112,7 @@ module.exports.deleteProgram = function (req, res, next) {
     });
 };
 
-module.exports.addBlock = function (req, res, next) {
+module.exports.addBlock = function(req, res, next) {
   Program.findById(req.params.programId)
     .exec()
     .then((program) => {
@@ -130,8 +130,7 @@ module.exports.addBlock = function (req, res, next) {
       });
       if (newBlock.path === '') {
         newBlock.path += newBlock._id;
-      }
-      else {
+      } else {
         newBlock.path += ',' + newBlock._id;
       }
 
@@ -154,10 +153,10 @@ module.exports.addBlock = function (req, res, next) {
               path: 'courses',
               model: 'Subject'
             })
-            .then(function (block) {
+            .then(function(block) {
               return res.status(200).json(newBlock);
             })
-            .catch(function (err) {
+            .catch(function(err) {
 
             });
         })
@@ -176,7 +175,7 @@ module.exports.addBlock = function (req, res, next) {
     });
 };
 
-module.exports.getAllBlock = function (req, res, next) {
+module.exports.getAllBlock = function(req, res, next) {
   Program.findById(req.params.programId)
     .select('blocks -_id')
     .exec()
@@ -192,11 +191,11 @@ module.exports.getAllBlock = function (req, res, next) {
           path: 'blocks.courses',
           model: 'Subject'
         })
-        .then(function (program) {
+        .then(function(program) {
           var tree = [];
           var blocks = program.blocks;
           var length = blocks.length;
-          var Child = function (data) {
+          var Child = function(data) {
             return {
               _id: data._id,
               name: data.name,
@@ -206,11 +205,10 @@ module.exports.getAllBlock = function (req, res, next) {
               children: []
             }
           }
-          var createChild = function (parent, child, level) {
+          var createChild = function(parent, child, level) {
             if (level === 1) {
               parent.push(Child(child));
-            }
-            else {
+            } else {
               createChild(parent[parent.length - 1].children, child, level - 1);
             }
           }
@@ -221,7 +219,7 @@ module.exports.getAllBlock = function (req, res, next) {
 
           return res.status(200).json(tree);
         })
-        .catch(function (err) {
+        .catch(function(err) {
 
         });
     })
@@ -234,7 +232,7 @@ module.exports.getAllBlock = function (req, res, next) {
     });
 };
 
-module.exports.getBlock = function (req, res, next) {
+module.exports.getBlock = function(req, res, next) {
   Program.findById(req.params.programId)
     .select('blocks -_id')
     .exec()
@@ -263,7 +261,7 @@ module.exports.getBlock = function (req, res, next) {
     });
 };
 
-module.exports.updateBlock = function (req, res, next) {
+module.exports.updateBlock = function(req, res, next) {
   Program.findById(req.params.programId)
     .select('blocks')
     .exec()
@@ -308,7 +306,7 @@ module.exports.updateBlock = function (req, res, next) {
     });
 };
 
-module.exports.deleteBlock = function (req, res, next) {
+module.exports.deleteBlock = function(req, res, next) {
   Program
     .findOneAndUpdate({
       _id: req.params.programId,
@@ -335,7 +333,7 @@ module.exports.deleteBlock = function (req, res, next) {
     })
 };
 
-module.exports.getAllFaculty = function (req, res, next) {
+module.exports.getAllFaculty = function(req, res, next) {
   Program
     .find({
       faculty: new RegExp(req.query.name)
@@ -355,10 +353,10 @@ module.exports.getAllFaculty = function (req, res, next) {
     });
 };
 
-module.exports.getAllType = function (req, res, next) {
+module.exports.getAllType = function(req, res, next) {
   Program.find({
-    type: new RegExp(req.query.name)
-  })
+      type: new RegExp(req.query.name)
+    })
     .distinct('type')
     .exec()
     .then((program) => {

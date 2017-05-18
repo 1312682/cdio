@@ -5,7 +5,7 @@ var Subject = mongoose.model('Subject');
 
 // Exported methods
 //-----------------------------------------------
-module.exports.createSubject = function (req, res, next) {
+module.exports.createSubject = function(req, res, next) {
   Subject
     .create({
       code: req.body.code,
@@ -28,7 +28,7 @@ module.exports.createSubject = function (req, res, next) {
     });
 };
 
-module.exports.getAllSubject = function (req, res, next) {
+module.exports.getAllSubject = function(req, res, next) {
   Subject.find()
     .exec()
     .then((subjects) => {
@@ -42,7 +42,7 @@ module.exports.getAllSubject = function (req, res, next) {
     });
 };
 
-module.exports.getSubject = function (req, res, next) {
+module.exports.getSubject = function(req, res, next) {
   Subject.findById(req.params.subjectId)
     .exec()
     .then((subject) => {
@@ -62,7 +62,7 @@ module.exports.getSubject = function (req, res, next) {
     });
 };
 
-module.exports.updateSubject = function (req, res, next) {
+module.exports.updateSubject = function(req, res, next) {
   Subject
     .findOneAndUpdate({
       _id: req.params.subjectId
@@ -96,7 +96,7 @@ module.exports.updateSubject = function (req, res, next) {
     });
 };
 
-module.exports.deleteSubject = function (req, res, next) {
+module.exports.deleteSubject = function(req, res, next) {
   Subject
     .findOneAndRemove({
       _id: req.params.subjectId
