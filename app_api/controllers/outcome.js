@@ -12,7 +12,7 @@ module.exports.createOutcome = function(req, res, next) {
         majors: req.body.majors,
         path: req.body.path,
         parent: req.body.parent,
-        ver: 1
+        ver: req.body.version
       },
       prev: []
     })
@@ -156,9 +156,7 @@ module.exports.updateVersionOutcome = function(req, res, next) {
 
 module.exports.deleteOutcome = function(req, res, next) {
   Outcome.find({
-      current: {
-        path: new RegExp(req.params.outcomeId)
-      }
+      'current.path': new RegExp(req.params.outcomeId)
     })
     .exec()
     .then((outcome) => {
@@ -180,33 +178,6 @@ module.exports.deleteOutcome = function(req, res, next) {
       return res.status(500).json({
         message: "cannot delete learning outcome",
         detail: err
-      });
-    });
-}
-
-module.exports.getLastestVersion = function(req, res, next) {
-  Outcome.find({})
-    .exec()
-    .then((outcome) => {
-      if (!outcome) {
-        return res.status(404).json({
-          message: "learning outcome not found!!!"
-        });
-      } else {
-        var currVer = outcome[0].current.ver;
-        for (var i = 1; i < outcome.length; i++) {
-          if (outcome[i].current.ver > currVer) {
-            currVer = outcome[i].current.ver;
-          }
-        }
-
-        return res.status(200).json({ currVer });
-      }
-    })
-    .catch((err) => {
-      return res.status(500).json({
-        message: "collection is empty",
-        currVer: 0
       });
     });
 }

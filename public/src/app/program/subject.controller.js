@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   angular
@@ -6,6 +6,7 @@
     .controller('SubjectController', SubjectController);
 
   SubjectController.$inject = ['$uibModal', 'Subject'];
+
   function SubjectController($uibModal, Subject) {
     var vm = this;
     vm.subjects = null;
@@ -22,10 +23,10 @@
     function activate() {
       Subject
         .GetAllSubject()
-        .then(function (subjects) {
+        .then(function(subjects) {
           vm.subjects = subjects
         })
-        .catch(function (err) {
+        .catch(function(err) {
           console.log(err);
         });
     }
@@ -43,7 +44,7 @@
             }
           }
         })
-        .result.then(function (subject) {
+        .result.then(function(subject) {
           vm.subjects.push(subject);
         });
     }
@@ -61,7 +62,7 @@
             }
           }
         })
-        .result.then(function (subject) {
+        .result.then(function(subject) {
           vm.subjects[vm.selectedSubjectIndex] = subject;
         });
     }
@@ -70,12 +71,12 @@
       Subject
         .DeleteSubject(vm.subjects[vm.selectedSubjectIndex]._id)
         .then(function(res) {
-          return vm.subjects.splice(vm.selectedSubjectIndex, 1);
           vm.selectedSubjectIndex = null;
+          return vm.subjects.splice(vm.selectedSubjectIndex, 1);
         })
         .catch(function(err) {
           console.log(err);
-        })
+        });
     }
 
     function selectSubject(index) {

@@ -39,8 +39,6 @@ router.route('/subjects/:subjectId')
 
 router.route('/outcomes')
   .post(routeOutcome.createOutcome);
-router.route('/outcomes/version')
-  .get(routeOutcome.getLastestVersion);
 router.route('/outcomes/:outcomeId')
   .get(routeOutcome.getTreeOutcome)
   .put(routeOutcome.updateOutcome)

@@ -1,11 +1,11 @@
-<div ui-tree-handle>
+<div ui-tree-handle class="tree">
   <a class="btn btn-primary btn-xs btn-collapse" ng-if="node.nodes && node.nodes.length > 0" data-nodrag ng-click="vm.Toggle(this)">
     <span class="fa fa-angle-right" ng-class="{ 'fa-angle-right': collapsed, 'fa-angle-down': !collapsed }"></span>
   </a>
   {{node.title}}
-  <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="vm.Remove(this)"><span class="fa fa-remove"></span></a>
-  <a class="pull-right btn btn-warning btn-xs" data-nodrag ng-click="vm.EditNode(this)" style="margin-right: 8px;"><span class="fa fa-edit"></span></a>  
-  <a class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="vm.AddSubNode(this)" style="margin-right: 8px;"><span class="fa fa-plus"></span></a>
+  <a class="pull-right btn btn-danger btn-xs tree-node-auxilary" data-nodrag ng-click="vm.Remove(this)" title="Xóa"><span class="fa fa-remove"></span></a>
+  <a class="pull-right btn btn-warning btn-xs tree-node-auxilary" data-nodrag ng-click="vm.EditNode(this)" title="Sửa" style="margin-right: 8px;"><span class="fa fa-edit"></span></a>
+  <a class="pull-right btn btn-primary btn-xs tree-node-auxilary" data-nodrag ng-click="vm.AddSubNode(this)" title="Thêm" style="margin-right: 8px;"><span class="fa fa-plus"></span></a>
 </div>
 <ol ui-tree-nodes="" ng-model="node.nodes" ng-if="node.nodes.length > 0" ng-class="{ 'hidden' : collapsed }">
   <li ng-repeat="node in node.nodes" ui-tree-node data-nodrag ng-include="'app/learningOutcome/outcomeNode.html'"></li>
