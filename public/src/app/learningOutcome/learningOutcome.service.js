@@ -88,7 +88,7 @@
       }
     }
 
-    function readExcelFile(workbook) {
+    function readExcelFile(workbook, version) {
       var sheet = workbook.Sheets["Learning Outcomes"];
 
       // Get range of Excel file
@@ -125,7 +125,7 @@
           ExcelArr.push(node);
         }
       }
-      treeToData(ExcelArr);
+      treeToData(ExcelArr, version);
 
       return OutcomeTree;
     }
@@ -170,13 +170,14 @@
       }
     }
 
-    function treeToData(data) {
+    function treeToData(data, version) {
       var nodeArr = [],
         promiseArr = [];
 
       for (var i = 0; i < data.length; i++) {
         var item = {
           title: data[i].title,
+          version: version,
           majors: []
         }
 

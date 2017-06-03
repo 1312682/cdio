@@ -32,6 +32,7 @@ module.exports.createOutcome = function(req, res, next) {
 
 module.exports.getTreeOutcome = function(req, res, next) {
   var currentVersion = req.query.version;
+
   var query = {
     'current.path': new RegExp(req.params.outcomeId),
     'current.ver': currentVersion

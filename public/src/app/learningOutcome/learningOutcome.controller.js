@@ -15,7 +15,7 @@
     vm.program = null;
     vm.programs = [];
     vm.programIndex = [];
-    vm.version = null;
+    vm.version = "";
     vm.versions = [];
 
     vm.newNode = "";
@@ -33,6 +33,7 @@
     vm.UpdateNode = updateNode;
     vm.Save = save;
     vm.GetTreeView = vm.getTreeView;
+    vm.SetMenuTitle = setMenuTitle;
 
     activate();
 
@@ -176,7 +177,7 @@
     }
 
     $scope.read = function read(workbook) {
-      vm.tree = Outcome.ReadExcelFile(workbook);
+      vm.tree = Outcome.ReadExcelFile(workbook, vm.version);
       $scope.$evalAsync();
     };
 
@@ -191,7 +192,6 @@
         vm.tree = Outcome.ToMaterializePath(vm.tree, rootPath);
 
         $timeout(function() {
-          console.log("RUN");
           Outcome.UpdateMaterialPath();
           toaster.pop('success', "Success", "Update program successfully!!!");
         }, 1000);
@@ -204,6 +204,16 @@
       // Outcome.GetOutcomeTree(vm.program._id).then(function(res) {
 
       // });
+    }
+
+    function setMenuTitle(code) {
+      var name = "";
+      for (var i = 0; i < code.length; i++) {
+        if (code[i] !== '0') {
+          name = name + code[i] + ".";
+        }
+      }
+      return name;
     }
   }
 })();
