@@ -24,6 +24,5 @@ Subject.on('index', (err) => {
   if (err) {
     return console.log(`Error occur when indexing: ${err}`);
   }
-
   return console.log('Finish indexing Subject');
 });

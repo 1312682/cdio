@@ -5,11 +5,16 @@ var Schema = mongoose.Schema;
 //-----------------------------------------------
 var detailSchema = new Schema({
   title: { type: String, required: true },
-  majors: { type: [String], required: false, default: null },
-  path: { type: String, default: null },
+  majors: { type: [String], default: null },
+  path: { type: String, default: '' },
   parent: { type: String, default: null },
-  ver: { type: String, default: null }
-})
+  ver: { type: String, required: true, default: null }
+});
+
+// Virtual properties
+detailSchema.virtual('level').get(function() {
+  return this.path.split(',').length;
+});
 
 var learningSchema = new Schema({
   current: { type: detailSchema },

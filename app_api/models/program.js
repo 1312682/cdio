@@ -23,7 +23,6 @@ var programSchema = new Schema({
   faculty: { type: String, required: true },
   type: { type: String, required: true },
   description: { type: String, required: false, default: '' },
-  outcome: { type: Schema.Types.ObjectId, ref: 'Outcome' },
   blocks: [blockSchema]
 });
 

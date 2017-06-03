@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-
+var outcomeFunc = require('../modules/outcome');
 // Models
 var Outcome = mongoose.model('Outcome');
 
@@ -32,12 +32,15 @@ module.exports.createOutcome = function(req, res, next) {
 
 module.exports.getTreeOutcome = function(req, res, next) {
   var currentVersion = req.query.version;
-  Outcome.find({
-      'current.path': new RegExp(req.params.outcomeId)
-    })
+  var query = {
+    'current.path': new RegExp(req.params.outcomeId),
+    'current.ver': currentVersion
+  }
+
+  Outcome.find(query)
     .exec()
     .then((tree) => {
-      if (!tree) {
+      if (!tree || tree.length == 0) {
         return res.status(404).json({
           message: "parent node not found!!!"
         });

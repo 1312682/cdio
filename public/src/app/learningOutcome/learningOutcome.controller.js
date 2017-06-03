@@ -1,209 +1,209 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular
-        .module('app.outcome')
-        .controller('OutcomeController', OutcomeController);
+  angular
+    .module('app.outcome')
+    .controller('OutcomeController', OutcomeController);
 
-    OutcomeController.$inject = ['$scope', '$timeout', 'toaster', '$uibModal', 'Outcome', 'Dialog'];
+  OutcomeController.$inject = ['$scope', '$timeout', 'toaster', '$uibModal', 'Outcome', 'Dialog'];
 
-    function OutcomeController($scope, $timeout, toaster, $uibModal, Outcome, Dialog) {
-        var vm = this;
-        window.sc = vm;
+  function OutcomeController($scope, $timeout, toaster, $uibModal, Outcome, Dialog) {
+    var vm = this;
+    window.sc = vm;
 
-        // Variables
-        vm.program = null;
-        vm.programs = [];
-        vm.programIndex = [];
-        vm.version = null;
-        vm.versions = [];
+    // Variables
+    vm.program = null;
+    vm.programs = [];
+    vm.programIndex = [];
+    vm.version = null;
+    vm.versions = [];
 
-        vm.newNode = "";
-        vm.nodes = [];
-        vm.tree = [];
-        vm.dragEnabled = false;
+    vm.newNode = "";
+    vm.nodes = [];
+    vm.tree = [];
+    vm.dragEnabled = false;
 
-        // Methods
-        vm.Toggle = toggle;
-        vm.Remove = remove;
-        vm.AddNode = addNode;
-        vm.AddSubNode = addSubNode;
-        vm.EditNode = editNode;
-        vm.ChooseFile = chooseFile;
-        vm.UpdateNode = updateNode;
-        vm.Save = save;
-        vm.GetTreeView = vm.getTreeView;
+    // Methods
+    vm.Toggle = toggle;
+    vm.Remove = remove;
+    vm.AddNode = addNode;
+    vm.AddSubNode = addSubNode;
+    vm.EditNode = editNode;
+    vm.ChooseFile = chooseFile;
+    vm.UpdateNode = updateNode;
+    vm.Save = save;
+    vm.GetTreeView = vm.getTreeView;
 
-        activate();
+    activate();
 
-        ////////////////
+    ////////////////
 
-        function activate() {
-            Outcome.GetAllPrograms().then(function(programs) {
-                for (var i = 0; i < programs.length; i++) {
-                    vm.programs.push(programs[i]);
-                }
-            }).catch(function(err) {
-                console.log(err);
-            });
-
-            Outcome.GetLastestVersion().then(function(res) {
-                for (var i = 1; i < res.currVer; i++) {
-                    vm.versions.push(i);
-                }
-                vm.version = vm.versions[vm.versions.length - 1];
-            }).catch(function(err) {
-                console.log(err);
-            });
+    function activate() {
+      Outcome.GetAllPrograms().then(function(programs) {
+        for (var i = 0; i < programs.length; i++) {
+          vm.programs.push(programs[i]);
         }
+      }).catch(function(err) {
+        console.log(err);
+      });
 
-        // Tree events
-        function toggle(node) {
-            node.toggle();
-        }
-
-        function remove(node) {
-            var outcome = node.$nodeScope.$modelValue;
-
-            Dialog.Confirm('Xóa chuẩn đầu ra', 'Bạn có chắc chắn', 'Xóa', function(isConfirm) {
-                if (isConfirm) {
-                    Outcome.DeleteNode(outcome._id).then(function(res) {
-                        if (res) {
-                            node.remove();
-                            toaster.pop('success', "Success", "Remove outcome successfully!!!");
-                        } else {
-                            toaster.pop('error', 'Failed', "Can't remove node. Please try again!!!");
-                        }
-                    });
-                } else {
-                    return false;
-                }
-            });
-        }
-
-        function addNode() {
-            $uibModal.open({
-                controller: 'OutcomeModalController',
-                controllerAs: 'vm',
-                templateUrl: 'app/learningOutcome/outcomeModal.html',
-                size: 'lg',
-                resolve: {
-                    outcome: function() {
-                        return null;
-                    }
-                }
-            }).result.then(function(outcome) {
-                if (vm.program.outcome) {
-                    outcome.path = "," + vm.program.outcome + "," + outcome._id + ",";
-                    vm.UpdateNode(outcome);
-                }
-
-                vm.tree.push({
-                    id: outcome._id,
-                    title: outcome.title,
-                    majors: outcome.majors,
-                    path: outcome.path,
-                    nodes: []
-                });
-
-                toaster.pop('success', "Success", "Add new learning outcome!!!");
-            });
-        }
-
-        function addSubNode(tree) {
-            $uibModal.open({
-                controller: 'OutcomeModalController',
-                controllerAs: 'vm',
-                templateUrl: 'app/learningOutcome/outcomeModal.html',
-                size: 'lg',
-                resolve: {
-                    outcome: function() {
-                        return null;
-                    }
-                }
-            }).result.then(function(outcome) {
-                var node = tree.$nodeScope.$modelValue;
-
-                // if (node.path) {
-                //     outcome.path = node.path + outcome._id + ",";
-                //     vm.UpdateNode(outcome);
-                // }
-
-                node.nodes.push({
-                    id: outcome._id,
-                    title: outcome.current.title,
-                    majors: outcome.current.majors,
-                    code: outcome.current.code,
-                    path: null,
-                    nodes: []
-                });
-
-                toaster.pop('success', "Success", "Add new learning outcome!!!");
-            });
-        }
-
-        function editNode(node) {
-            var item = node.$nodeScope.$modelValue;
-            $uibModal.open({
-                    controller: 'OutcomeModalController',
-                    controllerAs: 'vm',
-                    templateUrl: 'app/learningOutcome/outcomeModal.html',
-                    size: 'lg',
-                    resolve: {
-                        outcome: function() {
-                            return angular.copy(item);
-                        }
-                    }
-                })
-                .result.then(function(outcome) {
-                    item.title = outcome.title;
-                    item.majors = outcome.majors;
-
-                    $scope.$evalAsync();
-                });
-        }
-
-        function updateNode(outcome) {
-            Outcome.UpdateNode(outcome).then(function(res) {
-                console.log("Update node successfully.");
-            });
-        }
-        // End tree events
-
-        // Read excel file
-        function chooseFile() {
-            $('#jsExcelFile').click();
-        }
-
-        $scope.read = function read(workbook) {
-            vm.tree = Outcome.ReadExcelFile(workbook);
-            $scope.$evalAsync();
-        };
-
-        $scope.error = function error(e) {
-            console.log(e);
-        };
-        // End read excel file
-
-        function save() {
-            if (vm.program !== null && vm.tree.length > 0) {
-                var rootPath = "," + vm.program._id + ",";
-                vm.tree = Outcome.ToMaterializePath(vm.tree, rootPath);
-
-                $timeout(function() {
-                    console.log("RUN");
-                    Outcome.UpdateMaterialPath();
-                    toaster.pop('success', "Success", "Update program successfully!!!");
-                }, 1000);
-            } else {
-                toaster.pop('error', "Failed", "Information missed!!!");
-            }
-        }
-
-        function getTreeView() {
-            // Outcome.GetOutcomeTree(vm.program._id).then(function(res) {
-
-            // });
-        }
+      // Outcome.GetLastestVersion().then(function(res) {
+      //   for (var i = 1; i < res.currVer; i++) {
+      //     vm.versions.push(i);
+      //   }
+      //   vm.version = vm.versions[vm.versions.length - 1];
+      // }).catch(function(err) {
+      //   console.log(err);
+      // });
     }
+
+    // Tree events
+    function toggle(node) {
+      node.toggle();
+    }
+
+    function remove(node) {
+      var outcome = node.$nodeScope.$modelValue;
+
+      Dialog.Confirm('Xóa chuẩn đầu ra', 'Bạn có chắc chắn', 'Xóa', function(isConfirm) {
+        if (isConfirm) {
+          Outcome.DeleteNode(outcome._id).then(function(res) {
+            if (res) {
+              node.remove();
+              toaster.pop('success', "Success", "Remove outcome successfully!!!");
+            } else {
+              toaster.pop('error', 'Failed', "Can't remove node. Please try again!!!");
+            }
+          });
+        } else {
+          return false;
+        }
+      });
+    }
+
+    function addNode() {
+      $uibModal.open({
+        controller: 'OutcomeModalController',
+        controllerAs: 'vm',
+        templateUrl: 'app/learningOutcome/outcomeModal.html',
+        size: 'lg',
+        resolve: {
+          outcome: function() {
+            return null;
+          }
+        }
+      }).result.then(function(outcome) {
+        if (vm.program) {
+          outcome.outcome.path = "," + vm.program._id + "," + outcome._id + ",";
+          vm.UpdateNode(outcome);
+        }
+
+        vm.tree.push({
+          id: outcome._id,
+          title: outcome.outcome.title,
+          majors: outcome.outcome.majors,
+          path: outcome.outcome.path,
+          nodes: []
+        });
+
+        toaster.pop('success', "Success", "Add new learning outcome!!!");
+      });
+    }
+
+    function addSubNode(tree) {
+      $uibModal.open({
+        controller: 'OutcomeModalController',
+        controllerAs: 'vm',
+        templateUrl: 'app/learningOutcome/outcomeModal.html',
+        size: 'lg',
+        resolve: {
+          outcome: function() {
+            return null;
+          }
+        }
+      }).result.then(function(outcome) {
+        var node = tree.$nodeScope.$modelValue;
+
+        // if (node.path) {
+        //     outcome.path = node.path + outcome._id + ",";
+        //     vm.UpdateNode(outcome);
+        // }
+
+        node.nodes.push({
+          id: outcome._id,
+          title: outcome.current.title,
+          majors: outcome.current.majors,
+          code: outcome.current.code,
+          path: null,
+          nodes: []
+        });
+
+        toaster.pop('success', "Success", "Add new learning outcome!!!");
+      });
+    }
+
+    function editNode(node) {
+      var item = node.$nodeScope.$modelValue;
+      $uibModal.open({
+          controller: 'OutcomeModalController',
+          controllerAs: 'vm',
+          templateUrl: 'app/learningOutcome/outcomeModal.html',
+          size: 'lg',
+          resolve: {
+            outcome: function() {
+              return angular.copy(item);
+            }
+          }
+        })
+        .result.then(function(outcome) {
+          item.title = outcome.title;
+          item.majors = outcome.majors;
+
+          $scope.$evalAsync();
+        });
+    }
+
+    function updateNode(outcome) {
+      Outcome.UpdateNode(outcome).then(function(res) {
+        console.log("Update node successfully.");
+      });
+    }
+    // End tree events
+
+    // Read excel file
+    function chooseFile() {
+      $('#jsExcelFile').click();
+    }
+
+    $scope.read = function read(workbook) {
+      vm.tree = Outcome.ReadExcelFile(workbook);
+      $scope.$evalAsync();
+    };
+
+    $scope.error = function error(e) {
+      console.log(e);
+    };
+    // End read excel file
+
+    function save() {
+      if (vm.program !== null && vm.tree.length > 0) {
+        var rootPath = "," + vm.program._id + ",";
+        vm.tree = Outcome.ToMaterializePath(vm.tree, rootPath);
+
+        $timeout(function() {
+          console.log("RUN");
+          Outcome.UpdateMaterialPath();
+          toaster.pop('success', "Success", "Update program successfully!!!");
+        }, 1000);
+      } else {
+        toaster.pop('error', "Failed", "Information missed!!!");
+      }
+    }
+
+    function getTreeView() {
+      // Outcome.GetOutcomeTree(vm.program._id).then(function(res) {
+
+      // });
+    }
+  }
 })();
