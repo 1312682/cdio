@@ -45,8 +45,11 @@ router.route('/outcomes/:outcomeId')
   .put(routeOutcome.updateOutcome)
   .delete(routeOutcome.deleteOutcome);
 
+router.route('/outcomes/version/:outcomeId')
+  .get(routeOutcome.getAllVersion);
+
 // 404 handler
-router.use('*', function (req, res, next) {
+router.use('*', function(req, res, next) {
   return res.status(404).json({
     message: 'Bad URL'
   });
